@@ -8,6 +8,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      TB_KEY: ${{ secrets.TB_KEY}}
+      TB_SECRET: ${{ secrets.TB_SECRET}}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
