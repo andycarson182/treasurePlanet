@@ -54,22 +54,14 @@ export const config = {
     // https://saucelabs.com/platform/platform-configurator
     //
     capabilities: {
-        chrome: {
-            capabilities: {
-                'browserName': 'chrome',
-                'platform': 'YOSEMITE',
-                'version': '87',
-                'idletimeout': 300,
-            }
-        },
         appium: {
             capabilities: {
                 'idletimeout': 300,
-                'version': '13.0',
+                'version': '14.0',
                 'platformName': 'Android',
-                'deviceName': 'Pixel 6',
+                'deviceName': 'Pixel 8',
                 'realDevice': false,
-                'app': 'tb://37f467c33e0368e17b4eea75'
+                'app': 'tb://9349f2707c72221d9ef88db7'
             }
         }
     },
