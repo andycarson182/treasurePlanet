@@ -1,32 +1,32 @@
-name: Run for E2E Case in testingBot
-on:
-  workflow_dispatch:
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    env:
-      TB_KEY: ${{ secrets.TB_KEY}}
-      TB_SECRET: ${{ secrets.TB_SECRET}}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+# name: Run for E2E Case in testingBot
+# on:
+#   workflow_dispatch:
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+#     env:
+#       TB_KEY: ${{ secrets.TB_KEY}}
+#       TB_SECRET: ${{ secrets.TB_SECRET}}
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
+#       - name: Setup Node.js
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version: '20'
 
-      - name: Install dependencies
-        run: npm ci
+#       - name: Install dependencies
+#         run: npm ci
 
-      - name: Run tests
-        run: npm run testingBot:e2e
-        if: always()
-        continue-on-error: true
+#       - name: Run tests
+#         run: npm run testingBot:e2e
+#         if: always()
+#         continue-on-error: true
 
-      - name: Upload logs on failure
-        if: failure()
-        uses: actions/upload-artifact@v2
-        with:
-          name: logs
-          path: logs
+#       - name: Upload logs on failure
+#         if: failure()
+#         uses: actions/upload-artifact@v2
+#         with:
+#           name: logs
+#           path: logs
