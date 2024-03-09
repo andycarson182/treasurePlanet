@@ -1,0 +1,11 @@
+[
+    "Code is a required field",
+    "Label is a required field",
+    "Description is a required field",
+    "Weight UOM is a required field",
+    "Weight Capacity is a required field",
+    "Dimension UOM is a required field",
+    "Depth is a required field",
+    "Width is a required field",
+    "Height is a required field"
+]
