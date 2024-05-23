@@ -5,9 +5,11 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '0 5 * * *'  # Runs at 12:00 AM Central Time
+
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -33,3 +35,11 @@ jobs:
         with:
           name: allure-report
           path: allure-report
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@4.1.4
+        with:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }} # Replace with your GitHub access token
+          BRANCH: gh-pages # Branch to deploy to
+          FOLDER: allure-report # Folder containing the test reports
+          CLEAN: true # Remove existing files in the deployment branch
