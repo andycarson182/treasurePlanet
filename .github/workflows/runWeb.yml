@@ -40,8 +40,8 @@ jobs:
         if: always()
         continue-on-error: true
 
-      - name: Generate Allure Report
-        run: npm run allure:generate
+      # - name: Generate Allure Report
+      #   run: npm run allure:generate
 
       - name: Archive Allure Reports
         uses: actions/upload-artifact@v4
@@ -54,4 +54,4 @@ jobs:
         uses: actions/deploy-pages@v4
         with:
             github_token: ${{ secrets.GITHUB_TOKEN }}
-            publish_dir: allure-report
+            folder: allure-report # Folder containing the test reports
