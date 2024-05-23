@@ -33,7 +33,7 @@ jobs:
       #   run: npm run allure:generate
 
       - name: Load test report history
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4.1.6
         if: always()
         continue-on-error: true
         with:
@@ -49,10 +49,9 @@ jobs:
           allure_results: allure-results  # Modify this line to point to your test results directory
         
       - name: Publish test report
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v4.0.0
         if: always()
         with:
          github_token: ${{ secrets.GITHUB_TOKEN }}
          publish_branch: gh-pages
          publish_dir: allure-history
-         clean: true # Remove existing files in the deployment branch
