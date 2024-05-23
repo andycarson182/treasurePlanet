@@ -40,16 +40,18 @@ jobs:
           ref: gh-pages
           path: gh-pages
 
-      - name: Archive Allure Reports
-        uses: actions/upload-artifact@v4
+      - name: Build test report
+        uses: simple-elf/allure-report-action@v1.7
+        if: always()
         with:
-          name: allure-report
-          path: allure-report
-  
+          gh_pages: gh-pages
+          allure_history: allure-history
+          allure_results: allure-results  # Modify this line to point to your test results directory
+        
       - name: Publish test report
         uses: peaceiris/actions-gh-pages@v3
         if: always()
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: gh-pages
-          publish_dir: allure-report
+         github_token: ${{ secrets.GITHUB_TOKEN }}
+         publish_branch: gh-pages
+         publish_dir: allure-history
