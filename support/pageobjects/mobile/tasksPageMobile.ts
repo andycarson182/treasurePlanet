@@ -25,7 +25,7 @@ class TasksPageMobile {
         return this.browser.$('//android.widget.ImageView[@content-desc="LP Bin to Bin"]');
     }
 
-    get searchTask() {
+    public get searchTask() {
         return this.browser.$('//android.widget.EditText');
     }
 

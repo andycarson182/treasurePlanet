@@ -2,14 +2,14 @@ import { When, Then, DataTable } from '@wdio/cucumber-framework';
 import { multiremotebrowser } from '@wdio/globals';
 import { CommonPageElements } from '../../pageobjects/web/commonPageElements';
 import { EquipmentPage } from '../../pageobjects/web/equipmentPage';
+import { randomEquipmentCode } from '../../utilities/randomDataGenerator';
 
 const chrome = multiremotebrowser.getInstance('chrome');
 let commonPageElements = new CommonPageElements(chrome);
 let equipmentPage = new EquipmentPage(chrome);
 
-const equipmentTableHeaderCells = require('../../fixtures/headers/equipmentHeaders.json');
+const equipmentTableHeaderCells = require('../../fixtures/headers/equipmentsHeaders.json');
 const requiredErrorMessages = require('../../fixtures/requiredFieldErrorMessages/newEquipmentModal.json');
-const randomEquipmentCode = `automationEquipmentCode-${Math.floor(100000 + Math.random() * 900000)}`;
 
 When(/^I click add new equipment button$/, async () => {
     const addNewEquipmentButton = await equipmentPage.addNewEquipmentButton;
@@ -79,6 +79,7 @@ Then(/^I check the saved equipment info is displayed on the table as follows$/, 
     const model = data.model;
     const tagId = data.tagId;
 
+    await chrome.pause(5000); //UI delay
     if (code !== undefined) {
         const equipmentCodeToCheck = code === "automationEquipmentCode" ? randomEquipmentCode.toUpperCase() : code.toUpperCase();
         await equipmentPage.checkExpectedLabelCellIs(row, "code", equipmentCodeToCheck);

@@ -2,13 +2,16 @@
     "Code",
     "Label",
     "Description",
-    "Weight UOM",
+    "Weight UoM",
     "Weight Capacity",
-    "Dimension UOM",
+    "Dimension UoM",
     "Depth",
     "Width",
     "Height",
-    "Product Size Restriction",
-    "Created By (First Name)",
-    "Created By (Last Name)"
+    "Volume UoM",
+    "Product Length Limit",
+    "Product Width Limit",
+    "Product Height Limit",
+    "Maximum Product UoM",
+    "Created By"
 ]

@@ -10,19 +10,15 @@ class InventoryPage {
     }
 
     public get filterByColumnInput() {
-        return this.browser.$('input[data-testid=data-table-inventory-bin-level-quick-filter-filter-column-input]');
+        return this.browser.$('[data-testid=data-table-InventoryBinLevel-quick-filter-filter-column-input]');
     }
 
     public get filterOnNumberInput() {
-        return this.browser.$('[data-testid=data-table-inventory-bin-level-quick-filter-number-input]');
+        return this.browser.$('[data-testid=data-table-InventoryBinLevel-quick-filter-number-input]');
     }
 
-    public get arrowDropdown() {
-        return this.browser.$('[data-testid=ArrowDropDownIcon]');
-    }
-
-    public get currentInventoryActionsButton() {
-        return this.browser.$("[data-testid='binLevelActions_button']");
+    public get licensePlateActionsButton() {
+        return this.browser.$("[data-testid=licensePlateActions_button]");
     }
     public get inventoryCountingActionsButton() {
         return this.browser.$("button[data-testid=countTaskActions_button]");
@@ -32,7 +28,7 @@ class InventoryPage {
     }
 
     public get columnsControlButton() {
-        return this.browser.$('[data-testid=data-table-inventory-bin-level-column-control-button]');
+        return this.browser.$('[data-testid=data-table-InventoryBinLevel-column-control-button]');
     }
 
     public get filterButton() {
@@ -40,42 +36,37 @@ class InventoryPage {
     }
 
     public get exportButton() {
-        return this.browser.$('[data-testid=data-table-inventory-bin-level-export-button]');
+        return this.browser.$('[data-testid=data-table-InventoryBinLevel-export-button]');
     }
 
     public get saveLayoutButton() {
-        return this.browser.$('[data-testid=data-table-inventory-bin-level-save-layout-button]');
-    }
-
-    public get dataTableHeaderCells() {
-        return this.browser.$$('.css-bs5mk4')
-    }
-    public get modalHeader() {
-        return this.browser.$('div.MuiDialog-container h2');
-    }
-
-    public get modalSubmitButton() {
-        return this.browser.$('[data-testid=modal-submit-button]');
-    }
-
-    public get snackbarMessage() {
-        return this.browser.$('[data-testid=snackbar-notif-success-message]');
+        return this.browser.$('[data-testid=data-table-InventoryBinLevel-save-layout-button]');
     }
 
     public get licensePlateFilterInput() {
-        return this.browser.$("//input[@data-testid='data-table-inventory-license-plate-level-quick-filter-any-input-input']");
-    }
-
-    public get firstElementOfTheTable() {
-        return this.browser.$(`//tr[1]/td[2]//a`);
+        return this.browser.$("[data-testid=data-table-InventoryLicensePlateLevel-quick-filter-any-input-input]");
     }
 
     public get binLevelDropdownButton() {
-        return this.browser.$("//div[@data-testid= 'dataTableLayoutDropdown-inventory-bin-level']");
+        return this.browser.$("[data-testid=dataTableLayoutDropdown-InventoryBinLevel]");
     }
 
     public get nextPageTableBottom() {
-        return this.browser.$("//button[@data-testid='data-table-inventory-counting-bins-goto-next-page']");
+        return this.browser.$("//button[@data-testid=data-table-inventory-counting-bins-goto-next-page]");
+    }
+
+    public get firstCheckbox() {
+        return this.browser.$("tr:nth-child(1) > td:nth-child(1) > div > span > input")
+    }
+
+    /* Move License Plate from bin to bin */
+
+    public get destinationBinDropdown() {
+        return this.browser.$("[data-testid=destinationBin-input]");
+    }
+
+    public get markAsCompleteCheckbox() {
+        return this.browser.$(".MuiCheckbox-sizeMedium.css-a9sl58 > input")
     }
 
     async selectInventoryTab(tabOption: string) {
@@ -83,34 +74,10 @@ class InventoryPage {
         (await this.getInventoryTab(tabOption)).click();
     }
 
-    async selectFilterByColumn(filterOption: string) {
-        await this.filterByColumnInput.scrollIntoView();
-        (await this.arrowDropdown).waitForClickable({ timeout: 10000 });
-        (await this.arrowDropdown).click()
-        const dropdownListElement = await browser.$(`//li[contains(text(), '${filterOption}')]`);
-        await dropdownListElement.click();
-    }
-
     async selectOptionInInventoryLevelMenu(option: string) {
-        let currentOption = await this.browser.$(`//div[@data-testid='dataTableLayoutDropdown-inventory-bin-level-menu']/div[contains(@class,'MuiPaper-elevation8')]/ul//li[contains(text(), '${option}')]`)
+        let currentOption = await this.browser.$(`//li[@data-testid="dataTableLayoutDropdown-InventoryBinLevel-menu-item"][contains(text(), '${option}')]`)
         await (currentOption).waitForStable({ timeout: 3000 });
         await (currentOption).click();
-    }
-
-    async fillLicensePlateFilter(option: string) {
-        let licensePlateFilterInputElement = await this.licensePlateFilterInput;
-        await (licensePlateFilterInputElement).waitForClickable({ timeout: 10000 })
-        await (licensePlateFilterInputElement).click()
-        await (licensePlateFilterInputElement).setValue(option);
-        await this.browser.keys("\uE007");
-        await this.browser.pause(2000);
-    }
-
-    async selectFirstElemenOfTheTable() {
-        const firstElementOfTheTable = await this.firstElementOfTheTable;
-        await (firstElementOfTheTable).scrollIntoView()
-        await (firstElementOfTheTable).waitForClickable({ timeout: 10000 })
-        await (firstElementOfTheTable).click()
     }
 
     async compareExpectedArrayToActualArray(expectedArray: string[], actualArray: string[]) {
@@ -121,7 +88,6 @@ class InventoryPage {
             console.log("expected: ", expectedText, "actual: ", actualText);
             expect(actualText).toEqual(expectedText);
         };
-
     }
 
     async compareExpectedArrayToActualArrayByAttribute(expectedArray: string[], actualArray: string[], attribute: string) {
@@ -132,17 +98,11 @@ class InventoryPage {
             console.log("expected: ", expectedText, "actual: ", actualText);
             expect(actualText).toEqual(expectedText);
         };
-
     }
 
     async checkInventoryCountingActionButtonOptions(expectedArray: string[]) {
         const actualArray: any = await this.inventoryCountingActionsButtonOptions;
         await this.compareExpectedArrayToActualArray(expectedArray, actualArray);
-    }
-
-    async clickBinLevelDropdownButton() {
-        await this.binLevelDropdownButton.waitForClickable({ timeout: 5000 });
-        await this.binLevelDropdownButton.click();
     }
 }
 

@@ -2,6 +2,7 @@ import { When, Then, DataTable } from '@wdio/cucumber-framework';
 import { multiremotebrowser } from '@wdio/globals';
 import { CommonPageElements } from '../../pageobjects/web/commonPageElements';
 import { BinSizesPage } from '../../pageobjects/web/binSizesPage';
+import { randomBinSizeCode } from '../../utilities/randomDataGenerator';
 
 const chrome = multiremotebrowser.getInstance('chrome');
 let commonPageElements = new CommonPageElements(chrome);
@@ -9,7 +10,6 @@ let binSizesPage = new BinSizesPage(chrome);
 
 const binSizesTableHeaderCells = require('../../fixtures/headers/binSizesHeaders.json');
 const requiredErrorMessages = require('../../fixtures/requiredFieldErrorMessages/newBinSizeModal.json');
-const randomBinSizeCode = `automationBinSizeCode-${Math.floor(100000 + Math.random() * 900000)}`;
 
 When(/^I click add new bin size button$/, async () => {
     const addNewBinSizeButton = await binSizesPage.addNewBinSizeButton;
@@ -30,11 +30,25 @@ When(/^I check the data table headers are displayed and are correct for bin size
     await commonPageElements.checkDataTableHeaderCells(binSizesTableHeaderCells);
 });
 
-Then(/^I check the required error labels are displayed for bin size creation modal$/, async () => {
-    await commonPageElements.checkRequiredErrorMessages(requiredErrorMessages);
+
+Then(/^I check the bin size required error labels are displayed for "(.*)"$/, async (section: string) => {
+    let requiredErrorMessagesForSection;
+
+    switch (section) {
+        case 'dimensions and weights':
+            requiredErrorMessagesForSection = requiredErrorMessages.dimensionAndWeights;
+            break;
+        case 'product size restrictions':
+            requiredErrorMessagesForSection = requiredErrorMessages.productSizeRestrictions;
+            break;
+        default:
+            throw new Error(`Unsupported section: ${section}`);
+    }
+    
+    await commonPageElements.checkRequiredErrorMessages(requiredErrorMessagesForSection);
 });
 
-When(/^I fill in the new bin size info$/, async function (dataTable: DataTable) {
+When(/^I fill in the new bin size dimensions and weights info$/, async function (dataTable: DataTable) {
     const data = dataTable.hashes()[0];
     const code = data.code;
     const label = data.label;
@@ -45,6 +59,8 @@ When(/^I fill in the new bin size info$/, async function (dataTable: DataTable) 
     const depth = data.depth;
     const width = data.width;
     const height = data.height;
+    const volumeUoM = data.volumeUoM;
+    const volume = data.volume;
 
     if (code !== undefined) {
         const binSizeCodeToFill = code === "automationBinSizeCode" ? randomBinSizeCode : code;
@@ -57,13 +73,13 @@ When(/^I fill in the new bin size info$/, async function (dataTable: DataTable) 
         await commonPageElements.fillInField(await binSizesPage.binSizeDescriptionField, description);
     }
     if (weightUoM !== undefined) {
-        await binSizesPage.selectWeightUoM(weightUoM)
+        await commonPageElements.selectTypeaheadOption(await binSizesPage.binSizeWeightUoMTypeAHead, weightUoM);
     }
     if (weightCapacity !== undefined) {
         await commonPageElements.fillInField(await binSizesPage.binSizeWeightCapacityField, weightCapacity);
     }
     if (dimensionUoM !== undefined) {
-        await binSizesPage.selectDimensionUoMOption(dimensionUoM)
+        await commonPageElements.selectTypeaheadOption(await binSizesPage.binSizeDimensionUoMTypeAHead, dimensionUoM);
     }
     if (depth !== undefined) {
         await commonPageElements.fillInField(await binSizesPage.binSizeDepthField, depth);
@@ -74,7 +90,34 @@ When(/^I fill in the new bin size info$/, async function (dataTable: DataTable) 
     if (height !== undefined) {
         await commonPageElements.fillInField(await binSizesPage.binSizeHeightField, height);
     }
-    await chrome.pause(8000)
+    if (volumeUoM !== undefined) {
+        await commonPageElements.selectTypeaheadOption(await binSizesPage.binSizeVolumeUoMDropdown, volumeUoM);
+    }
+    if (volume !== undefined) {
+        await commonPageElements.fillInField(await binSizesPage.binSizeVolumeField, volume);
+    }
+
+});
+
+When(/^I fill in the new bin size product size restrictions info$/, async function (dataTable: DataTable) {
+    const data = dataTable.hashes()[0];
+    const  productLengthLimit = data.productLengthLimit;
+    const productWidthLimit = data.productWidthLimit;
+    const productHeightLimit = data.productHeightLimit;
+    const productLimitUoM = data.productLimitUoM;
+
+    if (productLengthLimit !== undefined) {
+        await commonPageElements.fillInField(await binSizesPage.productLengthLimitField, productLengthLimit)
+    }
+    if (productWidthLimit !== undefined) {
+        await commonPageElements.fillInField(await binSizesPage.productWidthLimitField, productWidthLimit)
+    }
+    if (productHeightLimit !== undefined) {
+        await commonPageElements.fillInField(await binSizesPage.productHeightLimitField, productHeightLimit);
+    }
+    if (productLimitUoM !== undefined) {
+        await commonPageElements.selectTypeaheadOption(await binSizesPage.productLimitUoMTypeAHead,productLimitUoM)
+    }
 });
 
 
@@ -90,11 +133,15 @@ Then(/^I check the saved bin size info is displayed on the table as follows$/, a
     const depth = data.depth;
     const width = data.width;
     const height = data.height;
-    const productSizeRestriction = data.productSizeRestriction;
-    const createdByFirstName = data.createdByFirstName;
-    const createdByLastName = data.createdByLastName;
+    const volumeUoM = data.volumeUoM;
+    const  productLengthLimit = data.productLengthLimit;
+    const productWidthLimit = data.productWidthLimit;
+    const productHeightLimit = data.productHeightLimit;
+    const maximumProductUoM = data.maximumProductUoM;
+    const createdBy= data.createdBy;
 
 
+    await chrome.pause(5000); //UI delay
     if (code !== undefined) {
         const binSizeCodeToCheck = code === "automationBinSizeCode" ? randomBinSizeCode.toUpperCase() : code.toUpperCase();
         await binSizesPage.checkExpectedLabelCellIs(row, "code", binSizeCodeToCheck);
@@ -123,14 +170,23 @@ Then(/^I check the saved bin size info is displayed on the table as follows$/, a
     if (height !== undefined) {
         await binSizesPage.checkExpectedLabelCellIs(row, "height", height);
     }
-    if ( productSizeRestriction !== undefined) {
-        await binSizesPage.checkExpectedLabelCellIs(row, "productSizeRestriction",productSizeRestriction);
+    if ( volumeUoM !== undefined) {
+        await binSizesPage.checkExpectedLabelCellIs(row, "volume",volumeUoM);
     }
-    if (createdByFirstName !== undefined) {
-        await binSizesPage.checkExpectedLabelCellIs(row, "createdByUserFirstName", createdByFirstName);
+    if (productLengthLimit !== undefined) {
+        await binSizesPage.checkExpectedLabelCellIs(row, "productLengthLimit", productLengthLimit);
     }
-    if (createdByLastName !== undefined) {
-        await binSizesPage.checkExpectedLabelCellIs(row, "createdByUserLastName",createdByLastName);
+    if (productWidthLimit !== undefined) {
+        await binSizesPage.checkExpectedLabelCellIs(row, "productWidthLimit",productWidthLimit);
+    }
+    if (productHeightLimit !== undefined) {
+        await binSizesPage.checkExpectedLabelCellIs(row, "productHeightLimit",productHeightLimit);
+    }
+    if (maximumProductUoM !== undefined) {
+        await binSizesPage.checkExpectedLabelCellIs(row, "productLimitUomCode",maximumProductUoM);
+    }
+    if (createdBy !== undefined) {
+        await binSizesPage.checkExpectedLabelCellIs(row, "createdByUserFirstName",createdBy );
     }
 });
 
@@ -146,6 +202,7 @@ Then(/^I verify "no results" is displayed on the bin sizes table$/, async () => 
     const noResultsLabel = await binSizesPage.NoResultsLabel;
     await noResultsLabel.isDisplayed();
 });
+
 
 
 

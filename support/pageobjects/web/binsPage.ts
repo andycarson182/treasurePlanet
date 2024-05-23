@@ -9,24 +9,24 @@ class BinsPage {
         this.browser = browser;
     }
 
-    public get addNewBinButton() {
-        return this.browser.$('[data-testid=create-bin-button]');
+    public get actionsButton(){
+        return this.browser.$('[data-testid=binsActions_button]');
     }
 
-    public get filterOnTermInput(){
-        return this.browser.$('[data-testid=data-table-bin-settings-quick-filter-any-input-input]');
+    public get filterOnTermInput() {
+        return this.browser.$('[data-testid=data-table-BinSettings-quick-filter-any-input-input]');
     }
 
-    public get editButton(){
+    public get editButton() {
         return this.browser.$('[data-testid=edit-modal-button]');
     }
 
-    public get NoResultsLabel(){
-        return this.browser.$('[data-testid="data-table-bin-settings-noResults"]');
+    public get NoResultsLabel() {
+        return this.browser.$('[data-testid="data-table-BinSettings-noResults"]');
     }
 
     public getBinsTableCell(row: any, cellType: string) {
-        return this.browser.$(`[data-testid=data-table-bin-settings-cell-${1 - row}_${cellType}]`);
+        return this.browser.$(`[data-testid=data-table-BinSettings-cell-${1 - row}_${cellType}]`);
     }
 
     /*  Add New Bin Modal Fields*/
@@ -97,17 +97,35 @@ class BinsPage {
 
     async selectBinSizeCode(binSizeOption: string) {
         await this.commonPageElements.fillInField(await this.binSizeCodeField, binSizeOption);
-        const listedOption = await this.browser.$(`//*[text()='${binSizeOption}']`);
+        const listedOption = await this.browser.$(`//li[contains(text(),'${binSizeOption}')]`);
         await listedOption.click();
     }
 
     async checkExpectedLabelCellIs(row: string, cellType: string, expectedText: string) {
-        await this.browser.pause(2000); //UI delay
         const cellElement = await this.getBinsTableCell(row, cellType);
         const cellText = await cellElement.getText();
         await cellElement.scrollIntoView();
         await cellElement.isDisplayed();
         expect(cellText).toEqual(expectedText);
+    }
+
+    
+    async selectActionInMenuOption(actionOption: string) {
+        const actionOptionsMap: { [key: string]: string } = {
+            'Add New Bin': '[data-testid="actionItem_createBin"]',
+            'Edit Team Info': '[data-testid="actionItem_addBinTags"]'
+        };
+    
+        if (!(actionOption in actionOptionsMap)) {
+            throw new Error("Not selecting a valid action");
+        }
+    
+        const actionButton = await this.actionsButton;
+        await actionButton.click();
+    
+        const actionSelector = actionOptionsMap[actionOption];
+        const actionElement = await this.browser.$(actionSelector);
+        await actionElement.click();
     }
 }
 

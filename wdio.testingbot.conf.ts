@@ -47,7 +47,7 @@ export const config = {
     // and 30 processes will get spawned. The property handles how many capabilities
     // from the same test should run tests.
     //
-    maxInstances: 10,
+    maxInstances: 1,
     //
     // If you have trouble getting all important capabilities together, check out the
     // Sauce Labs platform configurator - a great tool to configure your capabilities:
@@ -64,12 +64,12 @@ export const config = {
         },
         appium: {
             capabilities: {
-                'idletimeout': 300,
+                'idletimeout': 500,
                 'version': '13.0',
                 'platformName': 'Android',
                 'deviceName': 'Pixel 6',
                 'realDevice': false,
-                'app': 'tb://37f467c33e0368e17b4eea75'
+                'app': 'tb://93e295ed4e4d3bb33aff43ac'
             }
         }
     },
@@ -104,7 +104,7 @@ export const config = {
     // with `/`, the base url gets prepended, not including the path portion of your baseUrl.
     // If your `url` parameter starts without a scheme or `/` (like `some/path`), the base url
     // gets prepended directly.
-    baseUrl: 'http://localhost',
+    baseUrl: 'https://fd.fulfilld.qa/w/ab8d02d6/',
     //
     // Default timeout for all waitFor* commands.
     waitforTimeout: 50000,
@@ -141,7 +141,7 @@ export const config = {
 
     //
     // The number of times to retry the entire specfile when it fails as a whole
-    //specFileRetries: 1,
+    // specFileRetries: 1,
     //
     // Delay in seconds between the spec file retry attempts
     // specFileRetriesDelay: 0,
@@ -170,6 +170,7 @@ export const config = {
     // }]],
     // If you are using Cucumber you need to specify the location of your step definitions.
     cucumberOpts: {
+        retry: 1,
         // <string[]> (file/dir) require files before executing features
         require: ['./support/step-definitions/**/*.ts'],
         // <boolean> show full backtrace for errors

@@ -2,6 +2,7 @@ import { When, Then, DataTable } from '@wdio/cucumber-framework';
 import { multiremotebrowser } from '@wdio/globals';
 import { CommonPageElements } from '../../pageobjects/web/commonPageElements';
 import { DoorsPage } from '../../pageobjects/web/doorsPage';
+import { randomDoorCode } from '../../utilities/randomDataGenerator';
 
 const chrome = multiremotebrowser.getInstance('chrome');
 let commonPageElements = new CommonPageElements(chrome);
@@ -9,7 +10,7 @@ let doorsPage = new DoorsPage(chrome);
 
 const doorTableHeaderCells = require('../../fixtures/headers/doorsHeaders.json');
 const requiredErrorMessages = require('../../fixtures/requiredFieldErrorMessages/newDoorModal.json');
-const randomDoorCode = `automationDoorCode-${Math.floor(100000 + Math.random() * 900000)}`;
+
 
 When(/^I click add new door button$/, async () => {
     const addNewDoorButton = await doorsPage.addNewDoorButton;
@@ -76,6 +77,7 @@ Then(/^I check the saved door info is displayed on the table as follows$/, async
     const x = data.x;
     const y = data.y;
 
+    await chrome.pause(5000); //UI delay
     if (code !== undefined) {
         const doorCodeToCheck = code === "automationDoorCode" ? randomDoorCode.toUpperCase() : code.toUpperCase();
         await doorsPage.checkExpectedLabelCellIs(row, "code", doorCodeToCheck);

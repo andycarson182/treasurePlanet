@@ -1,0 +1,16 @@
+[
+    "Code is a required field",
+    "Label is a required field",
+    "Mobility is a required field",
+    "Cost / Hour is a required field",
+    "Weight Limit is a required field",
+    "Weight UoM is a required field",
+    "Height Limit is a required field",
+    "Height UoM is a required field",
+    "Height Minimum is a required field",
+    "Volume Limit is a required field",
+    "Volume UoM is a required field",
+    "Speed is a required field",
+    "Speed UoM is a required field",
+    "Vertical Speed is a required field"
+]

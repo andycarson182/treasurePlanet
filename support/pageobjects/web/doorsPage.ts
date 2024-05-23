@@ -10,11 +10,11 @@ class DoorsPage {
     }
 
     public get addNewDoorButton() {
-        return this.browser.$('[data-testid=page-info-additional-content]'); // https://fulfilld.atlassian.net/browse/DEV-2878
+        return this.browser.$('[data-testid=create-door-button]');
     }
 
     public get filterOnTermInput() {
-        return this.browser.$('[data-testid=data-table-door-settings-quick-filter-any-input-input]');
+        return this.browser.$('[data-testid=data-table-DoorSettings-quick-filter-any-input-input]');
     }
 
     public get editButton() {
@@ -22,17 +22,17 @@ class DoorsPage {
     }
 
     public get NoResultsLabel() {
-        return this.browser.$('[data-testid=data-table-doors-settings-noResults]');
+        return this.browser.$('[data-testid=data-table-DoorSettings-noResults]');
     }
 
     public getDoorsTableCell(row: any, cellType: string) {
-        return this.browser.$(`[data-testid=data-table-doors-settings-cell-${1 - row}_${cellType}]`);
+        return this.browser.$(`[data-testid=data-table-DoorSettings-cell-${1 - row}_${cellType}]`);
     }
 
     /*  Add New Doors Modal Fields*/
 
     public get doorCodeField() {
-        return this.browser.$('[data-testid="door-code"]');
+        return this.browser.$('[data-testid=door-code]');
     }
 
     public get doorAreaDropdown() {
@@ -55,11 +55,9 @@ class DoorsPage {
         return this.browser.$('[data-testid=doors-y]');
     }
 
-
     /* Actions */
 
     async checkExpectedLabelCellIs(row: string, cellType: string, expectedText: string) {
-        await this.browser.pause(2000); //UI delay
         const cellElement = await this.getDoorsTableCell(row, cellType);
         const cellText = await cellElement.getText();
         await cellElement.scrollIntoView();

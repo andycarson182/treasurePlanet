@@ -8,4 +8,3 @@ let loginPage = new LoginPage(appium);
 Given(/^I login in mobile fulfilld app$/, async () => {
     await loginPage.signIn('FDUser01@fulfilld.io', '0JnExxt9');
 });
-

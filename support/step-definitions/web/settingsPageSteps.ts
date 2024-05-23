@@ -1,5 +1,5 @@
-import {  When } from '@wdio/cucumber-framework';
-import {  multiremotebrowser } from '@wdio/globals'
+import { When } from '@wdio/cucumber-framework';
+import { multiremotebrowser } from '@wdio/globals'
 import { CommonPageElements } from '../../pageobjects/web/commonPageElements';
 import { SettingsPage } from '../../pageobjects/web/settingsPage';
 
@@ -8,11 +8,11 @@ let commonPageElements = new CommonPageElements(chrome);
 let settingsPage = new SettingsPage(chrome);
 
 When(/^I open the settings section$/, async () => {
-    const settingsSectionElement = await commonPageElements.settingsSection;
-    await commonPageElements.clickElement(settingsSectionElement);
+    const settingsSection = await commonPageElements.getSidebarLink('settings');
+    await commonPageElements.clickElement(settingsSection);
 });
 
-When(/^I search for "(.*)" section$/, async (section:string) => {
+When(/^I search for "(.*)" section$/, async (section: string) => {
     await settingsPage.searchBySection(section)
 });
 
