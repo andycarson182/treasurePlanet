@@ -37,7 +37,7 @@ jobs:
           path: allure-report
 
       - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@4.6.1
+        uses: JamesIves/github-pages-deploy-action@v4.6.1
         with:
             token: ${{ secrets.GITHUB_TOKEN }} # Use GitHub token instead of ACCESS_TOKEN
             branch: gh-pages # Branch to deploy to
