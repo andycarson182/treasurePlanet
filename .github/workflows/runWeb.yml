@@ -36,10 +36,11 @@ jobs:
           name: allure-report
           path: allure-report
 
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+  
       - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4.6.1
+        uses: peaceiris/actions-gh-pages@v3
         with:
-            token: ${{ secrets.GITHUB_TOKEN }} # Use GitHub token instead of ACCESS_TOKEN
-            branch: gh-pages # Branch to deploy to
-            folder: allure-report # Folder containing the test reports
-            clean: true # Remove existing files in the deployment branch
+            github_token: ${{ secrets.GITHUB_TOKEN }}
+            publish_dir: allure-report
