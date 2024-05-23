@@ -20,3 +20,4 @@ Feature: Test the Lots section
     Then I check the page header is "Lots"
     When I click the page info back button
     Then I check the page header is "Settings"
+    
