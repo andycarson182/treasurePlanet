@@ -16,10 +16,6 @@ class ReceiveFromProductionPage {
         return this.browser.$('//android.view.View[@content-desc="FG226 - FIN226,MTO,PD,Batch-Fifo"]');
     }
 
-    public get selectProductButton() {
-        return this.browser.$('//android.widget.Button[@content-desc="Select Product"]');
-    }
-
     public get confirmButton() {
         return this.browser.$('//android.widget.Button[@content-desc="Confirm"]');
     }

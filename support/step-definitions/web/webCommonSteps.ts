@@ -36,16 +36,15 @@ When(/^I click the refresh table button$/, async () => {
 When(/^I click the sideBar fulfilld logo$/, async () => {
     const sidebarFulfilldLogo = await commonPageElements.sidebarFulfilldLogo;
     await commonPageElements.clickElement(sidebarFulfilldLogo);
+    await chrome.pause(2000); //UI delay
 });
 
-When(/^I verify the URL is "(.*)"$/, async (expectedUrl: string) => {
-    const currentUrl = await browser.getUrl();
-    const containsExpectedUrl = currentUrl.indexOf(expectedUrl) !== -1;
-    console.log("Current URL:", containsExpectedUrl);
-    await expect(containsExpectedUrl).toBe(true)
+When(/^I verify the URL has "(.*)"$/, async (expectedUrl: string) => {
+    const currentUrl = await chrome.getUrl();
+     await expect(currentUrl.endsWith(expectedUrl)).toBe(true);
 });
 
-Then(/^I just wait (.*)$/, async (time: number) => {
+Then(/^I just wait "(.*)"$/, async (time: number) => {
     await chrome.pause(time);
 });
 
@@ -77,6 +76,35 @@ When(/^I click the (next|cancel|back|submit|delete|close) button$/, async (butto
             break;
     }
 });
+
+When(/^I select the "(.*)" option in the filter by columns dropdown$/, async (option: string) => {
+    await commonPageElements.selectFilterByColumn(option)
+});
+
+When(/^I select the first element of the table$/, async () => {
+    await commonPageElements.selectFirstElemenOfTheTable();
+});
+
+When(/^I select the checkbox row of the positon "(.*)"$/, async (position:string) => {
+    await commonPageElements.selectCheckboxOption(position);
+});
+
+When(/^I select the "(.*)" action option$/, async (actionOption:string) => {
+    await commonPageElements.selectActionOption(actionOption);
+});
+
+When(/^I check the modal header is "(.*)"$/, async (expectedHeader:string) => {
+    (await commonPageElements.modalHeader).waitForDisplayed({timeout:2500});
+    expect(await commonPageElements.modalHeader.getText()).toEqual(expectedHeader);
+});
+
+When(/^I check the snackbar message is "(.*)"$/, async (expectedMessage:string) => {
+    expect(await commonPageElements.snackbarMessage.getText()).toEqual(expectedMessage);
+    await chrome.pause(5000); // UI delay on the task creation
+});
+
+
+
 
 
 

@@ -2,6 +2,7 @@ import { When, Then, DataTable } from '@wdio/cucumber-framework';
 import { multiremotebrowser } from '@wdio/globals';
 import { CommonPageElements } from '../../pageobjects/web/commonPageElements';
 import { BinsPage } from '../../pageobjects/web/binsPage';
+import { randomBinCode } from '../../utilities/randomDataGenerator';
 
 const chrome = multiremotebrowser.getInstance('chrome');
 let commonPageElements = new CommonPageElements(chrome);
@@ -9,11 +10,10 @@ let binsPage = new BinsPage(chrome);
 
 const binsTableHeaderCells = require('../../fixtures/headers/binsHeaders.json');
 const requiredErrorMessages = require('../../fixtures/requiredFieldErrorMessages/newBinModal.json');
-const randomBinCode = `automationBinCode-${Math.floor(100000 + Math.random() * 900000)}`;
 
-When(/^I click add new bin button$/, async () => {
-    const addNewBinButton = await binsPage.addNewBinButton;
-    await commonPageElements.clickElement(addNewBinButton);
+
+When(/^I select "(.*)" action option on bins page$/, async (actionOption: string) => {
+    await binsPage.selectActionInMenuOption(actionOption);
 });
 
 When(/^I click edit bin button$/, async () => {
@@ -100,7 +100,7 @@ Then(/^I check the saved bin info is displayed on the table as follows$/, async 
     const width = data.width;
     const height = data.height;
 
-
+    await chrome.pause(5000); //UI delay
     if (binSizeCode !== undefined) {
         await binsPage.checkExpectedLabelCellIs(row, "binSizeCode", binSizeCode);
     }
@@ -162,6 +162,7 @@ Then(/^I check the saved bin info is displayed on the table as follows$/, async 
 });
 
 When(/^I filter by "(.*)" on bins term filter$/, async (term: string) => {
+    await chrome.pause(2000);
     if (term === "automationBinCode") {
         await commonPageElements.fillFilterOnTerm(await binsPage.filterOnTermInput, randomBinCode);
     } else {

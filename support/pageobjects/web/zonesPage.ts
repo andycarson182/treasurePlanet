@@ -14,7 +14,7 @@ class ZonesPage {
     }
 
     public get filterOnTermInput() {
-        return this.browser.$('[data-testid=data-table-zone-settings-quick-filter-any-input-input]');
+        return this.browser.$('[data-testid=data-table-ZoneSettings-quick-filter-any-input-input]');
     }
 
     public get editButton() {
@@ -22,13 +22,13 @@ class ZonesPage {
     }
 
     public get NoResultsLabel() {
-        return this.browser.$('[data-testid=data-table-zone-settings-noResults]');
+        return this.browser.$('[data-testid=data-table-ZoneSettings-noResults]');
     }
 
     public getZonesTableCell(row: any, cellType: string) {
-        return this.browser.$(`[data-testid=data-table-zone-settings-cell-${1 - row}_${cellType}]`);
+        return this.browser.$(`[data-testid=data-table-ZoneSettings-cell-${1 - row}_${cellType}]`);
     }
-    
+
     public get pickingUoMRestrictionOption() {
         return this.browser.$(`li.MuiAutocomplete-option`)
 
@@ -54,7 +54,6 @@ class ZonesPage {
     /* Actions */
 
     async checkExpectedLabelCellIs(row: string, cellType: string, expectedText: string) {
-        await this.browser.pause(2000); //UI delay
         const cellElement = await this.getZonesTableCell(row, cellType);
         const cellText = await cellElement.getText();
         await cellElement.scrollIntoView();

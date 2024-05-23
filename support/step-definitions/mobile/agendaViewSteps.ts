@@ -1,12 +1,14 @@
 import { When } from '@wdio/cucumber-framework';
 import { AgendaPage } from '../../pageobjects/mobile/agendaPage';
-import {  multiremotebrowser } from '@wdio/globals'
-import {CommonPageElements} from '../../pageobjects/mobile/commonPageElements';
-import { randomLicensePlateNumber } from '../web/inventoryPage';
+import { multiremotebrowser } from '@wdio/globals'
+import { CommonPageElements } from '../../pageobjects/mobile/commonPageElements';
+import { randomLicensePlateNumber } from '../../utilities/randomDataGenerator';
+import { licensePlateCode } from '../web/inventoryPage';
 
 const appium = multiremotebrowser.getInstance('appium');
 let agendaPage = new AgendaPage(appium);
 let commonPageElements = new CommonPageElements(appium);
+
 When(/^I click the plus action button$/, async () => {
     const plusActionButton = await agendaPage.plusActionButton;
     await commonPageElements.clickElement(plusActionButton)
@@ -29,12 +31,26 @@ When(/^I click the license plate bin 2 bin button$/, async () => {
 });
 
 When(/^I enter the ingested LP in the search bar$/, async () => {
-     await agendaPage.fillTextInput(randomLicensePlateNumber);
+    await commonPageElements.fillTextInput(randomLicensePlateNumber);
 });
 
-When(/^I select the searched License Plate Number$/, async () => {
-    await agendaPage.selectLicensePlateNumber(randomLicensePlateNumber)
+When(/^I select the searched "(b2b|putaway|pick)" task$/, async (taskType: string) => {
+    if (taskType === "b2b") {
+        await agendaPage.selectTask("Bin to Bin");
+    } else if (taskType === "putaway") {
+        await agendaPage.selectTask("Putaway");
+    } else if (taskType === "pick") {
+        await agendaPage.selectTask("Pick");
+    } else {
+        throw new Error("Invalid task type specified");
+    }
+    await appium.pause(3000); //UI delay
 });
+
+When(/^I enter the saved license plate code in the search bar$/, async () => {
+    await commonPageElements.fillTextInput(licensePlateCode);
+});
+
 
 
 

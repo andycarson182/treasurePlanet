@@ -25,20 +25,16 @@ class TeamsPage {
     }
 
     public get filterOnTermInput() {
-        return this.browser.$('[data-testid=data-table-team-settings-quick-filter-any-input-input]');
+        return this.browser.$('[data-testid=data-table-TeamSettings-quick-filter-any-input-input]');
     }
 
     public get filterOnTermInputForManageUserModal() {
-        return this.browser.$('[data-testid=data-table-team-assign-users-quick-filter-any-input-input]');
+        return this.browser.$('[data-testid=data-table-TeamAssignUsers-quick-filter-any-input-input]');
     }
     
     public get noResultsLabel() {
-        return this.browser.$('[data-testid=data-table-global-task-list-noResults]');
+        return this.browser.$('[data-testid=data-table-TeamSettings-noResults]');
     }
-
-    // public getModalButton(name: string) {
-    //     return this.browser.$(`[data-testid="modal-${name}-button"]`);  //improvement once the attribute name will be fixed
-    // }
 
     public getActionOption(actionOption: number) {
         return this.browser.$(`#team-action-menu  ul > li:nth-child(${actionOption})`)
@@ -49,18 +45,17 @@ class TeamsPage {
     }
 
     public getTeamsTableCell(row: any, cellType: string) {
-        return this.browser.$(`[data-testid=data-table-team-settings-cell-${1 - row}_${cellType}]`);
+        return this.browser.$(`[data-testid=data-table-TeamSettings-cell-${1 - row}_${cellType}]`);
     }
 
     public getAssignUsersTableCell(row: any, cellType: string) {
-        return this.browser.$(`[data-testid=data-table-team-assign-users-cell-${1 - row}_${cellType}]`);
+        return this.browser.$(`[data-testid=data-table-TeamAssignUsers-cell-${1 - row}_${cellType}]`);
     }
 
     /* Actions */
 
 
     async checkExpectedLabelCellIs(row: string, cellType: string, expectedText: string) {
-        await this.browser.pause(5000);
         const cellElement = await this.getTeamsTableCell(row, cellType);
         const cellText = await cellElement.getText();
         await cellElement.scrollIntoView();

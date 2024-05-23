@@ -7,19 +7,23 @@ class LicensePlateDetailPage {
     }
 
     public async getDestinationBin(row: number) {
-        return await this.browser.$(`[data-testid="data-table-license-plate-details-tasks-cell-${row - 1}_destinationBinCode"]`).getText();
+        return await this.browser.$(`[data-testid="data-table-LicensePlateDetailsTasks-cell-${row - 1}_destinationBinCode"]`).getText();
+    }
+
+    public async getTaskCode(row: number) {
+        return await this.browser.$(`[data-testid="data-table-LicensePlateDetailsTasks-cell-${row - 1}_taskCode"]`).getText();
     }
 
     public getTaskStatus(row: number) {
-        return this.browser.$(`[data-testid="data-table-license-plate-details-tasks-cell-${row - 1}_taskStatus"]`);
+        return this.browser.$(`[data-testid="data-table-LicensePlateDetailsTasks-cell-${row - 1}_taskStatus"]`);
     }
 
     public getTaskType(row: number) {
-        return this.browser.$(`[data-testid="data-table-license-plate-details-tasks-cell-${row - 1}_taskType"]`);
+        return this.browser.$(`[data-testid="data-table-LicensePlateDetailsTasks-cell-${row - 1}_taskType"]`);
     }
 
     public async getCellOnLicensePlateTasksTable(row: number, column: number) {
-        return await this.browser.$(`//tbody[@data-testid='data-table-license-plate-details-tasks-table-body']/tr[${row}]/td[${column}]`);
+        return await this.browser.$(`//tbody[@data-testid='data-table-LicensePlateDetailsTasks-table-body']/tr[${row}]/td[${column}]`);
     }
 
     async checkExpectedTaskTypeIs(row: number, expectedTaskType: string) {

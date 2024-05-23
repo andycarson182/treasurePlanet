@@ -1,3 +1,4 @@
+
 export const config = {
     user: process.env.TB_KEY,
     key: process.env.TB_SECRET,
@@ -56,11 +57,11 @@ export const config = {
         appium: {
             capabilities: {
                 'idletimeout': 300,
-                'version': '14.0',
+                'version': '13.0',
                 'platformName': 'Android',
-                'deviceName': 'Pixel 8',
+                'deviceName': 'Pixel 6',
                 'realDevice': false,
-                'app': 'tb://9349f2707c72221d9ef88db7'
+                'app': 'tb://9d98a35c00951d396bc18c03'
             }
         }
     },
@@ -95,7 +96,7 @@ export const config = {
     // with `/`, the base url gets prepended, not including the path portion of your baseUrl.
     // If your `url` parameter starts without a scheme or `/` (like `some/path`), the base url
     // gets prepended directly.
-    // baseUrl: 'http://localhost',
+    //baseUrl: 'http://localhost',
     //
     // Default timeout for all waitFor* commands.
     waitforTimeout: 50000,

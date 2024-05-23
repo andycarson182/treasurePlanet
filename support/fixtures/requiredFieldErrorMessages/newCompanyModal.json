@@ -1,0 +1,23 @@
+{
+    "companyDetails": [
+        "Code is a required field",
+        "Company Name is a required field"
+    ],
+    "companyContactInformation": [
+        "Email is a required field",
+        "Phone is a required field",
+        "Street 1 is a required field",
+        "Country is a required field",
+        "City is a required field",
+        "State/Province/Region is a required field",
+        "Zip is a required field"
+    ],
+    "companyDisplaysReferences": [
+        "Currency is a required field",
+        "Language is a required field",
+        "Date Format is a required field",
+        "Time Format is a required field",
+        "Timezone is a required field",
+        "Measurement System is a required field"
+    ]
+}

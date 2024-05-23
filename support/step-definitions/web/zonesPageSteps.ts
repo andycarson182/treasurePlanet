@@ -2,14 +2,21 @@ import { When, Then, DataTable } from '@wdio/cucumber-framework';
 import { multiremotebrowser } from '@wdio/globals';
 import { CommonPageElements } from '../../pageobjects/web/commonPageElements';
 import { ZonesPage } from '../../pageobjects/web/zonesPage';
+import { randomZoneCode } from '../../utilities/randomDataGenerator';
+import { DeleteOneZone } from '../../rest/deleteOneZone';
+import { CreateZone } from '../../rest/createOnezone';
+import { Zones } from '../../rest/zones';
 
 const chrome = multiremotebrowser.getInstance('chrome');
 let commonPageElements = new CommonPageElements(chrome);
 let zonesPage = new ZonesPage(chrome);
+const deleteOneZone = new DeleteOneZone();
+const zones = new Zones();
+const createZone = new CreateZone();
 
 const zonesTableHeaderCells = require('../../fixtures/headers/zonesHeaders.json');
 const requiredErrorMessages = require('../../fixtures/requiredFieldErrorMessages/newZoneModal.json');
-const randomZoneCode = `automationZoneCode-${Math.floor(100000 + Math.random() * 900000)}`;
+
 
 When(/^I click add new zone button$/, async () => {
     const addNewZoneButton = await zonesPage.addNewZoneButton;
@@ -30,8 +37,8 @@ Then(/^I check the required error labels are displayed for zone creation modal$/
 });
 
 Then(/^I verify the new zone modal is closed$/, async () => {
-    const newZonestModal = await commonPageElements.modalContainer;
-    await newZonestModal.waitForDisplayed({ reverse: true, timeout: 5000 });
+    const newZoneModal = await commonPageElements.modalContainer;
+    await newZoneModal.waitForDisplayed({ reverse: true, timeout: 5000 });
 });
 
 When(/^I fill in the new zone info$/, async function (dataTable: DataTable) {
@@ -69,6 +76,7 @@ Then(/^I check the saved zone info is displayed on the table as follows$/, async
     const binCount = data.binCount;
     const uoMRestrictions = data.uoMRestrictions;
 
+    await chrome.pause(5000); //UI delay
     if (code !== undefined) {
         const zoneCodeToCheck = code === "automationZoneCode" ? randomZoneCode.toUpperCase() : code.toUpperCase();
         await zonesPage.checkExpectedLabelCellIs(row, "code", zoneCodeToCheck);
@@ -80,7 +88,7 @@ Then(/^I check the saved zone info is displayed on the table as follows$/, async
         await zonesPage.checkExpectedLabelCellIs(row, "description", description);
     }
     if (warehouse !== undefined) {
-        await zonesPage.checkExpectedLabelCellIs(row, "warehouseId", warehouse);
+        await zonesPage.checkExpectedLabelCellIs(row, "warehouseName", warehouse);
     }
     if (areaCount !== undefined) {
         await zonesPage.checkExpectedLabelCellIs(row, "areaCount", areaCount);
@@ -112,3 +120,23 @@ Then(/^I verify "no results" is displayed on the zones table$/, async () => {
     const noResultsLabel = await zonesPage.NoResultsLabel;
     await noResultsLabel.isDisplayed();
 });
+
+
+When(/^I remove all test zones$/, async () => {
+    const zoneIds = await zones.getAutomationZones();
+
+    if (zoneIds.length === 0) {
+        console.log("No zones found to delete.");
+    } else {
+        // Iterate over each zone ID and delete the zonea
+        for (const zoneId of zoneIds) {
+            await deleteOneZone.deleteZone(zoneId);
+            console.log(`Deleted zone with ID: ${zoneId}`);
+        }
+    }
+});
+
+When(/^I create a zone thru grahpql endpoint$/, async () => {
+    await createZone.createAutomationZone();
+});
+

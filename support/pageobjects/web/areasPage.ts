@@ -14,7 +14,7 @@ class AreasPage {
     }
 
     public get filterOnTermInput() {
-        return this.browser.$('[data-testid=data-table-areas-settings-quick-filter-any-input-input]');
+        return this.browser.$('[data-testid="data-table-AreaSettings-quick-filter-any-input-input"]');
     }
 
     public get editButton() {
@@ -22,11 +22,11 @@ class AreasPage {
     }
 
     public get NoResultsLabel() {
-        return this.browser.$('[data-testid=data-table-areas-settings-noResults]');
+        return this.browser.$('[data-table-AreaSettings-noResults]');
     }
 
     public getAreasTableCell(row: any, cellType: string) {
-        return this.browser.$(`[data-testid=data-table-areas-settings-cell-${1 - row}_${cellType}]`);
+        return this.browser.$(`[data-testid=data-table-AreaSettings-cell-${1 - row}_${cellType}]`);
     }
 
     /*  Add New Areas Modal Fields*/
@@ -39,10 +39,6 @@ class AreasPage {
         return this.browser.$('[data-testid=area-name]');
     }
 
-    public get areaStorageLocationDropdown() {
-        return this.browser.$('[data-testid=area-storage-location]');
-    }
-
     public get areaStatusDropdown() {
         return this.browser.$('[data-testid=area-status]');
     }
@@ -52,22 +48,20 @@ class AreasPage {
     }
 
     public get issueNewStockSwitch() {
-        return this.browser.$('.css-ekeie0 div:nth-child(7) .css-a4ke8c > input')
+        return this.browser.$('[name=exitPoint]');
     }
 
     public get receiveNewStockSwitch() {
-        return this.browser.$('.css-ekeie0 div:nth-child(7) .css-a4ke8c > input')
+        return this.browser.$('[name=entryPoint]');
     }
 
     public get areaDescriptionField() {
         return this.browser.$('[data-testid=area-description]');
     }
 
-
     /* Actions */
 
     async checkExpectedLabelCellIs(row: string, cellType: string, expectedText: string) {
-        await this.browser.pause(2000); //UI delay
         const cellElement = await this.getAreasTableCell(row, cellType);
         const cellText = await cellElement.getText();
         await cellElement.scrollIntoView();

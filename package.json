@@ -8,6 +8,7 @@
     "cucumber:webWdio": "wdio run ./wdio.cucumber.web.conf.ts",
     "cucumber:mobileWdio": "wdio run ./wdio.cucumber.mobile.conf.ts",
     "cucumber:e2eWdio": "wdio run ./wdio.cucumber.e2e.conf.ts",
+    "holman:webWdio": "wdio run ./wdio.holman.dev.web.conf.ts",
     "testingBot:mobile": "wdio run ./wdio.testingbot.mobile.conf.ts",
     "testingBot:e2e": "wdio run ./wdio.testingbot.conf.ts",
     "allure:generate": "allure generate allure-results --clean && allure open"

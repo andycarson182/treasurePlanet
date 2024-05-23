@@ -101,7 +101,7 @@ export const config: Options.Testrunner = {
     // with `/`, the base url gets prepended, not including the path portion of your baseUrl.
     // If your `url` parameter starts without a scheme or `/` (like `some/path`), the base url
     // gets prepended directly.
-    baseUrl: 'http://localhost',
+    baseUrl: 'https://fd.fulfilld.qa/w/ab8d02d6/',
     //
     // Default timeout for all waitFor* commands.
     waitforTimeout: 50000,
@@ -129,7 +129,7 @@ export const config: Options.Testrunner = {
 
     //
     // The number of times to retry the entire specfile when it fails as a whole
-    specFileRetries: 1,
+    // specFileRetries: 1,
     //
     // Delay in seconds between the spec file retry attempts
     // specFileRetriesDelay: 0,
@@ -153,6 +153,7 @@ export const config: Options.Testrunner = {
     ],
     // If you are using Cucumber you need to specify the location of your step definitions.
     cucumberOpts: {
+        retry: 1,
         // <string[]> (file/dir) require files before executing features
         require: ['./support/step-definitions/**/*.ts'],
         // <boolean> show full backtrace for errors

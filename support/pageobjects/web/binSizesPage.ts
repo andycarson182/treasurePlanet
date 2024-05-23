@@ -10,23 +10,23 @@ class BinSizesPage {
     }
 
     public get addNewBinSizeButton() {
-        return this.browser.$('[data-testid=page-info-additional-content]'); //https://fulfilld.atlassian.net/browse/DEV-2899
+        return this.browser.$('[data-testid=create-binSize-button]');
     }
 
-    public get filterOnTermInput(){
-        return this.browser.$('[data-testid=data-table-bin-sizes-quick-filter-any-input-input]');
+    public get filterOnTermInput() {
+        return this.browser.$('[data-testid=data-table-BinSizes-quick-filter-any-input-input]');
     }
 
-    public get editButton(){
+    public get editButton() {
         return this.browser.$('[data-testid=edit-modal-button]');
     }
 
-    public get NoResultsLabel(){
-        return this.browser.$('[data-testid=data-table-bin-settings-noResults]'); // --> maybe the selctor needs to be adjusted
+    public get NoResultsLabel() {
+        return this.browser.$('[data-testid=data-table-BinSizes-noResults]');
     }
 
     public getBinsSizeTableCell(row: any, cellType: string) {
-        return this.browser.$(`[data-testid=data-table-bin-sizes-cell-${1 - row}_${cellType}]`);
+        return this.browser.$(`[data-testid=data-table-BinSizes-cell-${1 - row}_${cellType}]`);
     }
 
     /*  Add New Bin Size Modal Fields*/
@@ -46,7 +46,7 @@ class BinSizesPage {
     public get binSizeWeightUoMTypeAHead() {
         return this.browser.$('[data-testid=bin-size-weightUomDropdown]');
     }
-    public get binSizeWeightCapacityField(){
+    public get binSizeWeightCapacityField() {
         return this.browser.$('[data-testid=bin-size-weightCapacity]');
     }
 
@@ -66,22 +66,48 @@ class BinSizesPage {
         return this.browser.$('[data-testid=bin-size-height]');
     }
 
+    public get binSizeVolumeUoMDropdown() {
+        return this.browser.$('[data-testid=bin-size-volumeUomDropdown]');
+    }
+
+    public get binSizeVolumeField() {
+        return this.browser.$('[data-testid=bin-size-volume]');
+    }
+
+    public get productLengthLimitField(){
+        return this.browser.$('[data-testid=bin-size-productLengthLimit]')
+    }
+
+
+    public get productWidthLimitField(){
+        return this.browser.$('[data-testid=bin-size-productWidthLimit]')
+    }
+
+
+    public get productHeightLimitField(){
+        return this.browser.$('[data-testid=bin-size-productHeightLimit]')
+    }
+
+
+    public get productLimitUoMTypeAHead(){
+        return this.browser.$('[data-testid=bin-size-distanceUomDropdown]')
+    }
+
     /* Actions */
 
     async selectWeightUoM(weightUoMOption: string) {
         await this.commonPageElements.fillInField(await this.binSizeWeightUoMTypeAHead, weightUoMOption);
-        const listedOption = await this.browser.$(`//*[text()='${weightUoMOption}']`);
+        const listedOption = await this.browser.$(`//li[contains(text(),'${weightUoMOption}')]`);
         await listedOption.click();
     }
 
     async selectDimensionUoMOption(dimensionUoMOption: string) {
         await this.commonPageElements.fillInField(await this.binSizeDimensionUoMTypeAHead, dimensionUoMOption);
-        const listedOption = await this.browser.$(`//*[text()='${dimensionUoMOption}']`);
+        const listedOption = await this.browser.$(`//li[contains(text(),'${dimensionUoMOption}')]`);
         await listedOption.click();
     }
 
     async checkExpectedLabelCellIs(row: string, cellType: string, expectedText: string) {
-        await this.browser.pause(2000); //UI delay
         const cellElement = await this.getBinsSizeTableCell(row, cellType);
         const cellText = await cellElement.getText();
         await cellElement.scrollIntoView();

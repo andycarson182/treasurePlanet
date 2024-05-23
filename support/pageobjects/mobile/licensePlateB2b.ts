@@ -12,6 +12,10 @@ class LicensePlateB2b {
     public get searchButton() {
         return this.browser.$('//android.widget.Button[@content-desc="Search"]');
     }
+
+    public get overrideBinButton(){
+        return this.browser.$('//android.widget.Button[@content-desc="Override Bin"]');
+    }
 }
 
 export { LicensePlateB2b };
