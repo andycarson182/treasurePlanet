@@ -1,39 +1,56 @@
-# name: Run For Mobile App
-# on:
-#   pull_request:
-#     types: [closed]
-#   workflow_dispatch:
-#   schedule:
-#     - cron: '0 5 * * *'  # Runs at 12:00 AM Central Time
-# jobs:
-#   build:
-#     runs-on: ubuntu-latest
-#     env:
-#       TB_KEY: ${{ secrets.TB_KEY}}
-#       TB_SECRET: ${{ secrets.TB_SECRET}}
-#     steps:
-#       - name: Checkout
-#         uses: actions/checkout@v4
+name: Run For Mobile App
+on:
+  pull_request:
+    types: [closed]
+  workflow_dispatch:
+  schedule:
+    - cron: '0 4 * * *'  # Runs at 11:00 AM Central Time
 
-#       - name: Setup Node.js
-#         uses: actions/setup-node@v4
-#         with:
-#           node-version: '20'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      TB_KEY: ${{ secrets.TB_KEY }}
+      TB_SECRET: ${{ secrets.TB_SECRET }}
 
-#       - name: Install dependencies
-#         run: npm ci
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-#       - name: Run tests
-#         run: npm run testingBot:mobile
-#         if: always()
-#         continue-on-error: true
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
 
-#       # - name: Generate Allure Report
-#       #   run: npm run allure:generate
+      - name: Install dependencies
+        run: npm ci
 
-#       - name: Archive Allure Reports
-#         uses: actions/upload-artifact@v2
-#         with:
-#           name: allure-report
-#           path: allure-report
+      - name: Run tests
+        run: npm run testingBot:mobile
+        if: always()
+        continue-on-error: true
 
+      - name: Load test report history
+        uses: actions/checkout@v4
+        if: always()
+        continue-on-error: true
+        with:
+          ref: gh-pages
+          path: gh-pages/mobile
+
+      - name: Build test report
+        uses: simple-elf/allure-report-action@v1.7
+        if: always()
+        with:
+          gh_pages: gh-pages
+          allure_report: gh-pages/mobile/allure-report
+          allure_results: allure-results/mobile  # Modify this line to point to your test results directory
+
+      - name: Publish test report
+        uses: peaceiris/actions-gh-pages@v4.0.0
+        if: always()
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN  }}
+          publish_branch: gh-pages
+          publish_dir: gh-pages/mobile/allure-report
+          keep_files: true  # Add this line to ensure existing files are not removed
