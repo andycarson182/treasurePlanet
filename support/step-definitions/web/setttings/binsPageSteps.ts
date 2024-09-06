@@ -149,7 +149,6 @@ Then(/^I verify that the previously saved bin info is displayed on the table as 
     }
     if (lastCountDate) {
         const isToday = lastCountDate.toLowerCase() === 'today';
-        const isMacOS = process.platform === 'darwin';
 
         if (isToday) {
             const currentDate = new Date();
