@@ -10,7 +10,7 @@
     "Height Minimum is a required field",
     "Volume Limit is a required field",
     "Volume UoM is a required field",
-    "Speed is a required field",
+    "Average Operating Speed is a required field",
     "Speed UoM is a required field",
     "Vertical Speed is a required field"
 ]

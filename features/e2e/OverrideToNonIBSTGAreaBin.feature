@@ -29,7 +29,7 @@ Feature: E2E Case R1 - B2B Override / Task Take-over - Overflow or IB Manual Wor
     And I select the first element of the table
     Then I see the "Putaway license plate" task was created in the row "1" in the license plate tasks table
     Then I see the task status is "Cancelled" in the row "1" in the license plate tasks table
-    Then I see the "License plate bin to bin" task was created in the row "2" in the license plate tasks table
+    Then I see the "License plate task" task was created in the row "2" in the license plate tasks table
     Then I see the task status is "Complete" in the row "2" in the license plate tasks table
     Then I see the "Receipt From Production" task was created in the row "3" in the license plate tasks table
     Then I see the task status is "Complete" in the row "3" in the license plate tasks table
@@ -44,11 +44,11 @@ Feature: E2E Case R1 - B2B Override / Task Take-over - Overflow or IB Manual Wor
     And I click the "mark as complete" checkbox in the move license plante b2b modal
     Then I click the submit button
     And I select the first element of the table
-    Then I see the "License plate bin to bin" task was created in the row "1" in the license plate tasks table
+    Then I see the "License plate task" task was created in the row "1" in the license plate tasks table
     Then I see the task status is "Not Started" in the row "1" in the license plate tasks table
     Then I see the "Putaway license plate" task was created in the row "2" in the license plate tasks table
     Then I see the task status is "Cancelled" in the row "2" in the license plate tasks table
-    Then I see the "License plate bin to bin" task was created in the row "3" in the license plate tasks table
+    Then I see the "License plate task" task was created in the row "3" in the license plate tasks table
     Then I see the task status is "Complete" in the row "3" in the license plate tasks table
     Then I see the "Receipt From Production" task was created in the row "4" in the license plate tasks table
     Then I see the task status is "Complete" in the row "4" in the license plate tasks table

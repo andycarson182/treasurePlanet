@@ -61,7 +61,7 @@ export const config = {
                 'platformName': 'Android',
                 'deviceName': 'Pixel 6',
                 'realDevice': false,
-                'app': 'tb://9d98a35c00951d396bc18c03'
+                'app': 'tb://0619bb38c0964277e8c6ecad'
             }
         }
     },

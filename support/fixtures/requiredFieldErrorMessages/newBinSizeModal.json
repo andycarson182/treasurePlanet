@@ -3,19 +3,13 @@
         "Code is a required field",
         "Label is a required field",
         "Description is a required field",
-        "Weight UOM is a required field",
+        "Weight UoM is a required field",
         "Weight Capacity is a required field",
-        "Dimension UOM is a required field",
+        "Dimension UoM is a required field",
         "Depth is a required field",
         "Width is a required field",
         "Height is a required field",
-        "Volume UOM is a required field",
+        "Volume UoM is a required field",
         "Volume is a required field"
-    ],
-    "productSizeRestrictions":[
-        "Product Length Limit is a required field",
-        "Product Width Limit is a required field",
-        "Product Height Limit is a required field",
-        "Product Limit UoM is a required field"
     ]
 }

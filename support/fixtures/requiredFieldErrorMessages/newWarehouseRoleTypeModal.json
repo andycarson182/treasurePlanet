@@ -1,0 +1,9 @@
+[
+    "Code is a required field",
+    "Label is a required field",
+    "Speed is a required field",
+    "Speed UoM is a required field",
+    "Cost is a required field",
+    "Weight Limit is a required field",
+    "Weight UoM is a required field"
+]

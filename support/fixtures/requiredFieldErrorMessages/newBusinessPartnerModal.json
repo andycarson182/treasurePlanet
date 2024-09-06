@@ -1,0 +1,14 @@
+[
+    "Code is a required field",
+    "Name is a required field",
+    "Must be a valid date and time, click the Calendar icon for a Date Picker. (i.e. 07/12/2024 15:43)",
+    "Must be a valid date and time, click the Calendar icon for a Date Picker. (i.e. 07/12/2024 16:17)",
+    "Street is a required field",
+    "City is a required field",
+    "Region / State is a required field",
+    "Country is a required field",
+    "Postal Code is a required field",
+    "Timezone is a required field",
+    "Language is a required field",
+    "Email is a required field"
+]

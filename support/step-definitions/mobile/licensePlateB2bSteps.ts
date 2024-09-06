@@ -1,10 +1,10 @@
 import { When } from '@wdio/cucumber-framework';
 import { LicensePlateB2b } from '../../pageobjects/mobile/licensePlateB2b';
 import {  multiremotebrowser } from '@wdio/globals'
-import { destinationBin } from '../web/licensePlateDetailPageSteps';
+import { destinationBin } from '../web/wms/licensePlateDetailPageSteps';
 import {CommonPageElements} from '../../pageobjects/mobile/commonPageElements';
 import { randomLicensePlateNumber } from '../../utilities/randomDataGenerator';
-import { binCode, licensePlateCode } from '../web/inventoryPage';
+import { binCode, licensePlateCode } from '../web/wms/inventoryPageSteps';
 
 const appium = multiremotebrowser.getInstance('appium');
 let licensePlateB2b = new LicensePlateB2b(appium);
@@ -21,6 +21,10 @@ When(/^I enter "(.*)" as source bin$/, async (sourceBinValue:string) => {
 
 When(/^I enter "(.*)" as destination bin$/, async (destinationBinValue:string) => {
     await commonPageElements.fillTextInput(destinationBinValue);
+});
+
+When(/^I enter "(.*)" as license plate$/, async (licensePlateNumber:string) => {
+    await commonPageElements.fillTextInput(licensePlateNumber);
 });
 
 When(/^I enter the assigned destination bin of the License Plate b2b$/, async () => {

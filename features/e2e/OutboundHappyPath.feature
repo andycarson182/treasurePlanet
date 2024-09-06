@@ -9,7 +9,7 @@ Feature: E2E Case R1 - Outbound Happy Path
     Given I am on the login page
     When I login in fulfilld app
     And I open the deliveries section
-    And I clear the pre assigned data range
+    And I clear the pre assigned data range on deliveries page
     And I filter by "80003685" on deliveries and fulfillment term filter
     And I select the row "1" for deliveries and fulfillments code on the deliveries and fulfillments table
     And I click the assign inventory button in the row "1"

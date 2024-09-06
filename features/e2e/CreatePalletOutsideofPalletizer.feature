@@ -36,7 +36,7 @@ Feature: E2E Case R1 - Create/Receive Pallet Outside of Palletizer
     And  I refresh the current page
     Then I see the "Putaway license plate" task was created in the row "1" in the license plate tasks table
     Then I see the task status is "Planned" in the row "1" in the license plate tasks table
-    Then I see the "License plate bin to bin" task was created in the row "2" in the license plate tasks table
+    Then I see the "License plate task" task was created in the row "2" in the license plate tasks table
     Then I see the task status is "Not Started" in the row "2" in the license plate tasks table
     Then I see the "Receipt From Production" task was created in the row "3" in the license plate tasks table
     Then I see the task status is "Complete" in the row "3" in the license plate tasks table
@@ -55,7 +55,7 @@ Feature: E2E Case R1 - Create/Receive Pallet Outside of Palletizer
     When I refresh the current page
     Then I see the "Putaway license plate" task was created in the row "1" in the license plate tasks table
     Then I see the task status is "Not Started" in the row "1" in the license plate tasks table
-    Then I see the "License plate bin to bin" task was created in the row "2" in the license plate tasks table
+    Then I see the "License plate task" task was created in the row "2" in the license plate tasks table
     Then I see the task status is "Complete" in the row "2" in the license plate tasks table
     Then I see the "Receipt From Production" task was created in the row "3" in the license plate tasks table
     Then I see the task status is "Complete" in the row "3" in the license plate tasks table
@@ -71,7 +71,7 @@ Feature: E2E Case R1 - Create/Receive Pallet Outside of Palletizer
     When I refresh the current page
     Then I see the "Putaway license plate" task was created in the row "1" in the license plate tasks table
     Then I see the task status is "Complete" in the row "1" in the license plate tasks table
-    Then I see the "License plate bin to bin" task was created in the row "2" in the license plate tasks table
+    Then I see the "License plate task" task was created in the row "2" in the license plate tasks table
     Then I see the task status is "Complete" in the row "2" in the license plate tasks table
     Then I see the "Receipt From Production" task was created in the row "3" in the license plate tasks table
     Then I see the task status is "Complete" in the row "3" in the license plate tasks table

@@ -3,7 +3,7 @@ import { AgendaPage } from '../../pageobjects/mobile/agendaPage';
 import { multiremotebrowser } from '@wdio/globals'
 import { CommonPageElements } from '../../pageobjects/mobile/commonPageElements';
 import { randomLicensePlateNumber } from '../../utilities/randomDataGenerator';
-import { licensePlateCode } from '../web/inventoryPage';
+import { licensePlateCode } from '../web/wms/inventoryPageSteps';
 
 const appium = multiremotebrowser.getInstance('appium');
 let agendaPage = new AgendaPage(appium);
@@ -24,7 +24,7 @@ When(/^I click the manual receiving button$/, async () => {
     await commonPageElements.clickElement(manualReceivingButton)
 });
 
-When(/^I click the license plate bin 2 bin button$/, async () => {
+When(/^I click the license plate bin to bin button$/, async () => {
     const licensePlateb2b = await agendaPage.lpBinToBin;
     await (licensePlateb2b).waitForDisplayed({ timeout: 15000 });
     await (licensePlateb2b).click();

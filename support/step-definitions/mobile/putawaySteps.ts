@@ -1,7 +1,7 @@
 import { Then, When } from '@wdio/cucumber-framework';
 import { Putaway } from '../../pageobjects/mobile/putaway';
 import { multiremotebrowser } from '@wdio/globals'
-import { destinationBin } from '../web/licensePlateDetailPageSteps';
+import { destinationBin } from '../web/wms/licensePlateDetailPageSteps';
 import { CommonPageElements } from '../../pageobjects/mobile/commonPageElements';
 
 const appium = multiremotebrowser.getInstance('appium');
