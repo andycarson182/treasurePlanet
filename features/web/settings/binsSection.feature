@@ -66,14 +66,14 @@ Feature: Test the Bins section
       And I select "Add New Bin" action option on bins page
       And I fill in the new bin info
         | binSizeCode | binCode             | areaCode                      | aisle | column | level | x | y | lastCountDate |
-        | DOCK        | Automation Bin Code | DIRECT-LOAD: AREA-DIRECT-LOAD | 1     | 1      | 1     | 1 | 1 | 10/10/2024        |
+        | DOCK        | Automation Bin Code | DIRECT-LOAD: AREA-DIRECT-LOAD | 1     | 1      | 1     | 1 | 1 | today         |
       And I click the submit button
       Then I check the snackbar message is "Successfully added new bin: AUTOMATION BIN CODE"
       When I filter by column: "Code" on the bins section
       And I filter by text "AUTOMATION BIN CODE" on the bins term filter and ensure that a record is displayed
       Then I verify that the previously saved bin info is displayed on the table as follows
         | row | binCode             | status | removal   | placement | areaCode    | level | x | y | lastCountDate | hasOpenTasks | containsProducts | binSizeCode | weightCapacity | depth                | width                | height               |
-        | 1   | AUTOMATION BIN CODE | Active | Available | Available | DIRECT-LOAD | 1     | 1 | 1 | 10/10/2024        | No           | No               | DOCK        | 999999999 LB   | 83333333.24999999 FT | 83333333.24999999 FT | 83333333.24999999 FT |
+        | 1   | AUTOMATION BIN CODE | Active | Available | Available | DIRECT-LOAD | 1     | 1 | 1 | today         | No           | No               | DOCK        | 999999999 LB   | 83333333.24999999 FT | 83333333.24999999 FT | 83333333.24999999 FT |
   And I remove all test bins data
 
 #   @DEV-3647
@@ -96,47 +96,47 @@ Feature: Test the Bins section
 #       | 1   | AUTOMATION BIN CODE | Active | Available | Available | DIRECT-LOAD | 1     | 1 | 1 | 01/01/2024 23:21 CST | No           | No               | DOCK        | 999999999 LB   | 83333333.24999999 FT | 83333333.24999999 FT | 83333333.24999999 FT |
 #     And I remove all test bins data
 
-#   @DEV-3648
-#   @severity:normal
-#   Scenario:Verify the persistence of data in the edit form after creation.
-#     Given I remove all test bins data
-#     And I am on the "bins" page
-#     And  I check the page header is "Bins"
-#     And I select "Add New Bin" action option on bins page
-#     And I fill in the new bin info
-#       | binSizeCode | binCode             | areaCode                      | aisle | column | level | x | y | lastCountDate |
-#       | DOCK        | Automation Bin Code | DIRECT-LOAD: AREA-DIRECT-LOAD | 1     | 1      | 1     | 1 | 1 | today         |
-#     And I click the submit button
-#     When I filter by column: "Code" on the bins section
-#     And I filter by text "AUTOMATION BIN CODE" on the bins term filter and ensure that a record is displayed
-#     And I click the edit button
-#     Then I verify that the previously saved bin info is displayed on the edit bin form
-#       | binSizeCode | binSizeLabel | weightCapacity | depth                | width                | height               | binCode             | areaCode                      | aisle | column | level | x | y | lastCountDate |
-#       | DOCK        | DOCK_DOOR    | 999999999 LB   | 83333333.24999999 FT | 83333333.24999999 FT | 83333333.24999999 FT | AUTOMATION BIN CODE | DIRECT-LOAD: AREA-DIRECT-LOAD | 1     | 1      | 1     | 1 | 1 | today         |
-#     And I remove all test bins data
+  @DEV-3648
+  @severity:normal
+  Scenario:Verify the persistence of data in the edit form after creation.
+    Given I remove all test bins data
+    And I am on the "bins" page
+    And  I check the page header is "Bins"
+    And I select "Add New Bin" action option on bins page
+    And I fill in the new bin info
+      | binSizeCode | binCode             | areaCode                      | aisle | column | level | x | y | lastCountDate |
+      | DOCK        | Automation Bin Code | DIRECT-LOAD: AREA-DIRECT-LOAD | 1     | 1      | 1     | 1 | 1 | today         |
+    And I click the submit button
+    When I filter by column: "Code" on the bins section
+    And I filter by text "AUTOMATION BIN CODE" on the bins term filter and ensure that a record is displayed
+    And I click the edit button
+    Then I verify that the previously saved bin info is displayed on the edit bin form
+      | binSizeCode | binSizeLabel | weightCapacity | depth                | width                | height               | binCode             | areaCode                      | aisle | column | level | x | y | lastCountDate |
+      | DOCK        | DOCK_DOOR    | 999999999 LB   | 83333333.24999999 FT | 83333333.24999999 FT | 83333333.24999999 FT | AUTOMATION BIN CODE | DIRECT-LOAD: AREA-DIRECT-LOAD | 1     | 1      | 1     | 1 | 1 | today         |
+    And I remove all test bins data
 
-#   @DEV-2936
-#   @severity:critical
-#   Scenario: Verify that the user can edit a Bin and confirm the updated data in the Bins table.
-#     Given I remove all test bins data
-#     And I create a bin thru grahpql endpoin with the bin code: "AUTOMATION BIN CODE FOR EDIT"
-#     And I am on the "bins" page
-#     And  I check the page header is "Bins"
-#     When I filter by column: "Code" on the bins section
-#     And I filter by text "AUTOMATION BIN CODE FOR EDIT" on the bins term filter and ensure that a record is displayed
-#     And I click the edit button
-#     #needs to add aisle and column
-#     And I fill in the new bin info
-#       | binSizeCode | binCode                     | areaCode        | aisle | column | level | x | y | lastCountDate |
-#       | PAL         | Automation Bin Code Updated | FG-1: AREA-FG-1 | 1    | 12      | 2     | 2 | 2 | today         |
-#     And I click the submit button
-#     Then I check the snackbar message is "Successfully updated bin: AUTOMATION BIN CODE UPDATED"
-#     When I filter by column: "Code" on the bins section
-#     And I filter by text "AUTOMATION BIN CODE UPDATED" on the bins term filter and ensure that a record is displayed
-#     Then I verify that the previously saved bin info is displayed on the table as follows
-#       | row | binCode                     | status | removal   | placement | areaCode | level | x | y | lastCountDate | hasOpenTasks | containsProducts | binSizeCode | weightCapacity | depth                | width                | height               |
-#       | 1   | AUTOMATION BIN CODE UPDATED | Active | Available | Available | FG-1     | 2     | 2 | 2 | today         | No           | No               | PAL         | 5000 LB        | 7.999999999999998 FT | 4.166666666666666 FT | 3.999999999999999 FT |
-#     And I remove all test bins data
+  @DEV-2936
+  @severity:critical
+  Scenario: Verify that the user can edit a Bin and confirm the updated data in the Bins table.
+    Given I remove all test bins data
+    And I create a bin thru grahpql endpoin with the bin code: "AUTOMATION BIN CODE FOR EDIT"
+    And I am on the "bins" page
+    And  I check the page header is "Bins"
+    When I filter by column: "Code" on the bins section
+    And I filter by text "AUTOMATION BIN CODE FOR EDIT" on the bins term filter and ensure that a record is displayed
+    And I click the edit button
+    #needs to add aisle and column
+    And I fill in the new bin info
+      | binSizeCode | binCode                     | areaCode        | aisle | column | level | x | y | lastCountDate |
+      | PAL         | Automation Bin Code Updated | FG-1: AREA-FG-1 | 1    | 12      | 2     | 2 | 2 | today         |
+    And I click the submit button
+    Then I check the snackbar message is "Successfully updated bin: AUTOMATION BIN CODE UPDATED"
+    When I filter by column: "Code" on the bins section
+    And I filter by text "AUTOMATION BIN CODE UPDATED" on the bins term filter and ensure that a record is displayed
+    Then I verify that the previously saved bin info is displayed on the table as follows
+      | row | binCode                     | status | removal   | placement | areaCode | level | x | y | lastCountDate | hasOpenTasks | containsProducts | binSizeCode | weightCapacity | depth                | width                | height               |
+      | 1   | AUTOMATION BIN CODE UPDATED | Active | Available | Available | FG-1     | 2     | 2 | 2 | today         | No           | No               | PAL         | 5000 LB        | 7.999999999999998 FT | 4.166666666666666 FT | 3.999999999999999 FT |
+    And I remove all test bins data
 
 # @DEV-2937
 # @severity:critical
