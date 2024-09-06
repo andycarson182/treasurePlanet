@@ -66,14 +66,14 @@ Feature: Test the Bins section
       And I select "Add New Bin" action option on bins page
       And I fill in the new bin info
         | binSizeCode | binCode             | areaCode                      | aisle | column | level | x | y | lastCountDate |
-        | DOCK        | Automation Bin Code | DIRECT-LOAD: AREA-DIRECT-LOAD | 1     | 1      | 1     | 1 | 1 | today         |
+        | DOCK        | Automation Bin Code | DIRECT-LOAD: AREA-DIRECT-LOAD | 1     | 1      | 1     | 1 | 1 | 10/10/2024        |
       And I click the submit button
       Then I check the snackbar message is "Successfully added new bin: AUTOMATION BIN CODE"
       When I filter by column: "Code" on the bins section
       And I filter by text "AUTOMATION BIN CODE" on the bins term filter and ensure that a record is displayed
       Then I verify that the previously saved bin info is displayed on the table as follows
         | row | binCode             | status | removal   | placement | areaCode    | level | x | y | lastCountDate | hasOpenTasks | containsProducts | binSizeCode | weightCapacity | depth                | width                | height               |
-        | 1   | AUTOMATION BIN CODE | Active | Available | Available | DIRECT-LOAD | 1     | 1 | 1 | today         | No           | No               | DOCK        | 999999999 LB   | 83333333.24999999 FT | 83333333.24999999 FT | 83333333.24999999 FT |
+        | 1   | AUTOMATION BIN CODE | Active | Available | Available | DIRECT-LOAD | 1     | 1 | 1 | 10/10/2024        | No           | No               | DOCK        | 999999999 LB   | 83333333.24999999 FT | 83333333.24999999 FT | 83333333.24999999 FT |
   And I remove all test bins data
 
 #   @DEV-3647
