@@ -7,5 +7,7 @@
     "Aisle Count",
     "Column Count",
     "Bin Count",
-    "UoM Restriction"
+    "Picking UoM Restrictions",
+    "Putaway UoM Restrictions",
+    "Replenishment UoM Restrictions"
 ]

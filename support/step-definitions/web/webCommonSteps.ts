@@ -10,14 +10,35 @@ When(/^I refresh the current page$/, async () => {
 });
 
 When(/^I check the page header is "(.*)"$/, async (expectedSectionHeader: string) => {
-    await chrome.pause(7500); // uiDelay
     const sectionHeaderElement = await commonPageElements.sectionHeader;
-    const sectionHeaderText = await sectionHeaderElement.getText();
+    await sectionHeaderElement.waitForDisplayed({ timeout: 120000 });
+    await chrome.waitUntil(
+        async () => {
+            const sectionHeaderText = (await sectionHeaderElement.getText()).replace(/\n/g, ' ');
+            return sectionHeaderText  === expectedSectionHeader;
+        },
+        {
+            timeout: 40000,
+            timeoutMsg: `Expected section header to be "${expectedSectionHeader}" but it was not found within the timeout period`
+        }
+    );
+    const sectionHeaderText = (await sectionHeaderElement.getText()).replace(/\n/g, ' ');
     await expect(sectionHeaderText).toEqual(expectedSectionHeader);
 });
 
 When(/^I check the page sub-header is "(.*)"$/, async (expectedSectionSubHeader: string) => {
     const sectionSubHeaderElement = await commonPageElements.sectionSubHeader;
+    await sectionSubHeaderElement.waitForDisplayed({ timeout: 25000 });
+    await chrome.waitUntil(
+        async () => {
+            const sectionSubHeaderText = await sectionSubHeaderElement.getText();
+            return  sectionSubHeaderText === expectedSectionSubHeader;
+        },
+        {
+            timeout: 15000,
+            timeoutMsg: `Expected section header to be "${expectedSectionSubHeader}" but it was not found within the timeout period`
+        }
+    );
     const sectionSubHeaderText = await sectionSubHeaderElement.getText();
     await expect(sectionSubHeaderText).toEqual(expectedSectionSubHeader);
 });
@@ -41,14 +62,16 @@ When(/^I click the sideBar fulfilld logo$/, async () => {
 
 When(/^I verify the URL has "(.*)"$/, async (expectedUrl: string) => {
     const currentUrl = await chrome.getUrl();
-     await expect(currentUrl.endsWith(expectedUrl)).toBe(true);
+
+    await expect(currentUrl.endsWith(expectedUrl)).toBe(true);
 });
 
 Then(/^I just wait "(.*)"$/, async (time: number) => {
     await chrome.pause(time);
 });
 
-When(/^I click the (next|cancel|back|submit|delete|close) button$/, async (buttonName: string) => {
+When(/^I click the (next|cancel|back|submit|delete|edit|close|exit) button$/, async (buttonName: string) => {
+    await chrome.pause(3500);
     switch (buttonName) {
         case 'next':
             const modalNextButton = await commonPageElements.modalNextButton;
@@ -70,41 +93,43 @@ When(/^I click the (next|cancel|back|submit|delete|close) button$/, async (butto
             const modalDeleteButton = await commonPageElements.modalDeleteButton; //They are reusing the same submit for this component, we need to correct this
             commonPageElements.clickElement(modalDeleteButton);
             break;
+        case 'edit':
+            const editButton = await commonPageElements.editButton; //The selector attribute is not right, we will need to correct in the future
+            commonPageElements.clickElement(editButton);
+            break;
         case 'close':
             const modalCloseButton = await commonPageElements.modalCloseButton;
             commonPageElements.clickElement(modalCloseButton);
             break;
+        case 'exit':
+            const modalExitButton = await commonPageElements.modalExitButton;
+            commonPageElements.clickElement(modalExitButton);
+            break;
     }
-});
-
-When(/^I select the "(.*)" option in the filter by columns dropdown$/, async (option: string) => {
-    await commonPageElements.selectFilterByColumn(option)
 });
 
 When(/^I select the first element of the table$/, async () => {
     await commonPageElements.selectFirstElemenOfTheTable();
 });
 
-When(/^I select the checkbox row of the positon "(.*)"$/, async (position:string) => {
+When(/^I select the checkbox row of the positon "(.*)"$/, async (position: string) => {
     await commonPageElements.selectCheckboxOption(position);
 });
 
-When(/^I select the "(.*)" action option$/, async (actionOption:string) => {
+When(/^I select the "(.*)" action option$/, async (actionOption: string) => {
     await commonPageElements.selectActionOption(actionOption);
 });
 
-When(/^I check the modal header is "(.*)"$/, async (expectedHeader:string) => {
-    (await commonPageElements.modalHeader).waitForDisplayed({timeout:2500});
+When(/^I check the modal header is "(.*)"$/, async (expectedHeader: string) => {
+    (await commonPageElements.modalHeader).waitForDisplayed({ timeout: 2500 });
     expect(await commonPageElements.modalHeader.getText()).toEqual(expectedHeader);
 });
 
-When(/^I check the snackbar message is "(.*)"$/, async (expectedMessage:string) => {
-    expect(await commonPageElements.snackbarMessage.getText()).toEqual(expectedMessage);
-    await chrome.pause(5000); // UI delay on the task creation
+When(/^I check the snackbar message is "(.*)"$/, async (expectedMessage: string) => {
+    await commonPageElements.checkSnackbarMessage(expectedMessage, 'success');
 });
 
-
-
-
-
+When(/^I check the snackbar error message is "(.*)"$/, async (expectedMessage: string) => {
+    await commonPageElements.checkSnackbarMessage(expectedMessage, 'error');
+});
 

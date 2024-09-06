@@ -4,7 +4,7 @@ on:
     types: [closed]
   workflow_dispatch:
   schedule:
-    - cron: '0 5 * * *'  # Runs at 12:00 AM Central Time
+    - cron: '0 11 * * *'  # Runs at 6:00 AM Central Time (CDT)
 
 jobs:
   build:
@@ -19,35 +19,61 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Cache Node.js modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
       - name: Install dependencies
         run: npm ci
 
+      - name: Free disk space
+        run: |
+          sudo swapoff -a
+          sudo rm -f /swapfile
+          sudo apt clean
+          sudo rm -rf /usr/local/share/boost
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /usr/share/swift
+          sudo rm -rf /usr/local/share/clang
+          sudo rm -rf /usr/local/lib/node_modules
+          sudo rm -rf /usr/local/include/node
+          sudo rm -rf /opt/ghc
+          sudo rm -rf /usr/local/go
+          df -h
+
+      - name: Clean allure-results directory
+        run: rm -rf allure-results/*
+        
       - name: Run tests
         run: npm run cucumber:webWdio
         if: always()
         continue-on-error: true
-
+        
       - name: Load test report history
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.1.6
         if: always()
         continue-on-error: true
         with:
           ref: gh-pages
-          path: gh-pages/web
+          path: gh-pages
 
       - name: Build test report
         uses: simple-elf/allure-report-action@v1.7
         if: always()
         with:
           gh_pages: gh-pages
-          allure_report: gh-pages/web/allure-report
-          allure_results: allure-results/web  # Modify this line to point to your test results directory
-
+          allure_history: allure-history
+          allure_results: allure-results  # Modify this line to point to your test results directory
+        
       - name: Publish test report
         uses: peaceiris/actions-gh-pages@v4.0.0
         if: always()
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN  }}
-          publish_branch: gh-pages
-          publish_dir: gh-pages/web/allure-report
-          keep_files: true  # Add this line to ensure existing files are not removed
+         github_token: ${{ secrets.GITHUB_TOKEN }}
+         publish_branch: gh-pages
+         publish_dir: allure-history
+  

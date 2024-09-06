@@ -69,7 +69,7 @@ export const config = {
                 'platformName': 'Android',
                 'deviceName': 'Pixel 6',
                 'realDevice': false,
-                'app': 'tb://93e295ed4e4d3bb33aff43ac'
+                'app': 'tb://0619bb38c0964277e8c6ecad'
             }
         }
     },
@@ -104,7 +104,7 @@ export const config = {
     // with `/`, the base url gets prepended, not including the path portion of your baseUrl.
     // If your `url` parameter starts without a scheme or `/` (like `some/path`), the base url
     // gets prepended directly.
-    baseUrl: 'https://fd.fulfilld.qa/w/ab8d02d6/',
+    baseUrl: 'https://fd.fulfilld.qa/w/a7c8dd9b/',
     //
     // Default timeout for all waitFor* commands.
     waitforTimeout: 50000,
@@ -170,7 +170,7 @@ export const config = {
     // }]],
     // If you are using Cucumber you need to specify the location of your step definitions.
     cucumberOpts: {
-        retry: 1,
+        // retry: 1,
         // <string[]> (file/dir) require files before executing features
         require: ['./support/step-definitions/**/*.ts'],
         // <boolean> show full backtrace for errors

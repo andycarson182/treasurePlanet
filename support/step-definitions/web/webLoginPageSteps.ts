@@ -17,8 +17,16 @@ Given(/^I am on the login page$/, async function () {
     await chrome.url('/auth/support/login'); // WebDriverIO will automatically prepend the base URL
 });
 
+let isLoggedIn = false;
+
 When(/^I login in fulfilld app$/, async () => {
-    await webLoginPage.supportLogin('support@fulfilld.io', 'QAZwsxEDC1234:)');
+    // Check if the user is already logged in
+    if (!isLoggedIn) {
+        await webLoginPage.supportLogin('support@fulfilld.io', 'QAZwsxEDC1234:)');
+        isLoggedIn = true;
+    } else {
+        console.log('User is already logged in. Skipping login action.');
+    }
 });
 
 When(/^I expand the WMS Section$/, async () => {

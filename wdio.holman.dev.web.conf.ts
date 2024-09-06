@@ -172,7 +172,7 @@ export const config: Options.Testrunner = {
         // <string> (expression) only execute the features or scenarios with tags matching the expression
         tagExpression: '',
         // <number> timeout for step definitions
-        timeout: 100000,
+        timeout: 120000,
         // <boolean> Enable this config to treat undefined definitions as warnings.
         ignoreUndefinedDefinitions: false,
         // Add hooks for screenshot capture

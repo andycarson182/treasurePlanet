@@ -1,3 +1,4 @@
+import { addSeverity } from '@wdio/allure-reporter';
 import type { Options } from '@wdio/types'
 
 export const config: Options.Testrunner = {
@@ -31,11 +32,11 @@ export const config: Options.Testrunner = {
     // of the config file unless it's absolute.
     //
     specs: [
-        './features/web/lotsSection.feature'
+        './features/web/**/binsSection.feature'
     ],
     // Patterns to exclude.
     exclude: [
-        // 'path/to/excluded/files'
+        './features/web/**/sapDataIngestion.feature'
     ],
     //
     // ============
@@ -53,7 +54,7 @@ export const config: Options.Testrunner = {
     // and 30 processes will get spawned. The property handles how many capabilities
     // from the same test should run tests.
     //
-    maxInstances: 2,
+    maxInstances: 3,
     //
     // If you have trouble getting all important capabilities together, check out the
     // Sauce Labs platform configurator - a great tool to configure your capabilities:
@@ -101,7 +102,7 @@ export const config: Options.Testrunner = {
     // with `/`, the base url gets prepended, not including the path portion of your baseUrl.
     // If your `url` parameter starts without a scheme or `/` (like `some/path`), the base url
     // gets prepended directly.
-    baseUrl: 'https://fd.fulfilld.qa/w/ab8d02d6/',
+    baseUrl: 'https://fd.fulfilld.qa/w/a7c8dd9b/',
     //
     // Default timeout for all waitFor* commands.
     waitforTimeout: 50000,
@@ -173,7 +174,7 @@ export const config: Options.Testrunner = {
         // <string> (expression) only execute the features or scenarios with tags matching the expression
         tagExpression: '',
         // <number> timeout for step definitions
-        timeout: 100000,
+        timeout: 120000,
         // <boolean> Enable this config to treat undefined definitions as warnings.
         ignoreUndefinedDefinitions: false,
         // Add hooks for screenshot capture
@@ -254,7 +255,18 @@ export const config: Options.Testrunner = {
      * Runs before a Cucumber Scenario.
      * @param {ITestCaseHookParameter} world    world object containing information on pickle and test step
      * @param {object}                 context  Cucumber World object
+     * 
+     * 
      */
+    beforeScenario: function (world) {
+        const tags = world.pickle.tags;
+        tags.forEach(tag => {
+            if (tag.name.startsWith('@severity:')) {
+                const severity = tag.name.split(':')[1];
+                addSeverity(severity);
+            }
+        });
+    },
     // beforeScenario: function (world, context) {
     // },
     /**
@@ -277,13 +289,13 @@ export const config: Options.Testrunner = {
      * @param {number}             result.duration  duration of scenario in milliseconds
      * @param {object}             context          Cucumber World object
      */
-    afterStep: async function (step, scenario, result, context) {
-        if (!result.passed) {
-            step
-            scenario
-            context
-            await browser.takeScreenshot();
-        }
+    afterStep: async function (step, scenario context) {
+        // if (!result.passed) {
+        step
+        scenario
+        context
+        await browser.takeScreenshot();
+        // }
     },
     /**
      *

@@ -1,0 +1,14 @@
+[
+    "Code",
+    "Name",
+    "Type", 
+    "Customer",
+    "Supplier",
+    "Street",
+    "City",
+    "Region",
+    "Timezone",
+    "Language",
+    "Email",
+    "Phone"
+]

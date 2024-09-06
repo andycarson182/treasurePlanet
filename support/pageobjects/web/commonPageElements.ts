@@ -26,7 +26,7 @@ class CommonPageElements {
     }
 
     public get wmsSection() {
-        return this.browser.$('#root > div.MuiBox-root.css-144k634 > div.MuiBox-root.css-t0abzf > div.MuiBox-root.css-0 > div:nth-child(1) > svg')
+        return this.browser.$('[data-testid=sidebar-category-wms] + svg');
     }
 
     public getSidebarLink(section: string) {
@@ -57,9 +57,14 @@ class CommonPageElements {
         return this.browser.$('[data-testid=ArrowDropDownIcon]');
     }
 
-    get snackbarMessage() {
+    get snackbarSuccessMessage() {
         return this.browser.$('[data-testid=snackbar-notif-success-message]');
     }
+
+    get snackbarErrorMessage() {
+        return this.browser.$('[  data-testid=snackbar-notif-error-message]');
+    }
+
 
     /*   Modal elements  */
     public get modalContainer() {
@@ -94,39 +99,40 @@ class CommonPageElements {
         return this.browser.$('.css-13kleg4');
     }
 
-    public get typeaheadAutoCompletedOption() {
-        return this.browser.$(`li.MuiAutocomplete-option`)
-
+    public get modalExitButton() {
+        return this.browser.$('[data-testid=modal-misc-button]')
+    }
+    public get editButton() {
+        return this.browser.$('[data-testid=edit-modal-button]');
     }
 
-    async elementIsEnabled(element: any, enabled = false) {
-
-        const ariaDisabledValue = await element.getAttribute('aria-disabled');
-        if (enabled == true) {
-            expect(ariaDisabledValue).toEqual('false');
-
-        } else {
-            expect(ariaDisabledValue).toEqual('true');
-
-        }
+    public get typeaheadAutoCompletedOptions() {
+        return this.browser.$$(`li.MuiAutocomplete-option`);
     }
 
     async clickElement(element: WebdriverIO.Element) {
-        await (element).waitForStable({ timeout: 20000 });
+        await (element).waitForClickable({ timeout: 30000 });
         await (element).isDisplayed();
         await (element).click();
     }
-
     async fillInField(fieldName: WebdriverIO.Element, value: string) {
         const field = fieldName;
+        await field.waitForDisplayed();
+        await field.clearValue();
         await this.clearValue(field);
         await field.setValue(value);
     }
 
     /* For some reason the WebdriverIo clearValue function is not working with our input fields so this is a workaround.*/
     async clearValue(element: WebdriverIO.Element) {
-        await element.click()
-        await this.browser.keys(['Meta', 'a']);
+        await element.click();
+        if (process.platform === 'darwin') {
+            // Use Meta + A to select all on macOS
+            await this.browser.keys(['Meta', 'a']);
+        } else {
+            // Use Control + A to select all on other operating systems (e.g., Ubuntu)
+            await this.browser.keys(['Control', 'a']);
+        }
         await this.browser.keys(['Backspace']);
     }
 
@@ -135,20 +141,57 @@ class CommonPageElements {
         await dropdownElement.selectByVisibleText(option);
     }
 
+    //This is for a custom-styled componen
+    async selectCustomDropdownOption(dropdownElement: WebdriverIO.Element, optionText: string) {
+        await dropdownElement.click();
+        const optionSelector = `//li[contains(text(), "${optionText}")]`;
+        const optionElement = await $(optionSelector);
+        await optionElement.waitForDisplayed({ timeout: 15000 });
+        await optionElement.click();
+    }
+
     // This is for typeahead selection
     async selectTypeaheadOption(dropdownElement: WebdriverIO.Element, option: string) {
-        await this.fillInField(await dropdownElement, option);
-        const typeaheadAutoCompletedOption = await this.typeaheadAutoCompletedOption;
-        typeaheadAutoCompletedOption.click();
-        await this.browser.pause(2500); // UI delay
+        // Fill in the dropdown with the option
+        await this.fillInField(dropdownElement, option);
+
+        // Wait until at least one autocomplete option is displayed
+        await this.browser.waitUntil(
+            async () => {
+                const options = await this.typeaheadAutoCompletedOptions;
+                return options.length > 0 && options.some(async (el) => await el.isDisplayed());
+            },
+            {
+                timeout: 30000,
+                timeoutMsg: `Expected autocomplete options to be displayed but they were not found within the timeout period`
+            }
+        );
+
+        // Find and click the option that matches the provided text
+        const options = await this.typeaheadAutoCompletedOptions;
+        for (const optionElement of options) {
+            const optionText = await optionElement.getText();
+            if (optionText.trim() === option.trim()) { // Ensure it matches exactly
+                await optionElement.click();
+                await this.browser.pause(2500); // UI delay
+                return;
+            }
+        }
+
+        // If no exact match is found, throw an error
+        throw new Error(`No autocomplete option found matching "${option}"`);
     }
+
     async fillFilterOnTerm(filterInput: WebdriverIO.Element, option: string) {
-        await filterInput.waitForClickable({ timeout: 15000 });
+        await filterInput.waitForClickable({ timeout: 30000 }); // Ensure the element is clickable
+        await filterInput.scrollIntoView(); // Scroll the element into view if necessary
         await this.clearValue(filterInput);
         await filterInput.setValue(option);
         await filterInput.click();
         await this.browser.keys("\uE007");
-        await this.browser.pause(2000);
+        await this.browser.keys("\uE007"); // Second Enter for UI responsiveness
+        const refreshTableButton = await this.refreshTableButton;
+        await this.clickElement(refreshTableButton);
     }
 
     async selectFirstElemenOfTheTable() {
@@ -167,7 +210,7 @@ class CommonPageElements {
     async selectFilterByColumn(filterOption: string) {
         const filterByColumnArrowDropdown = await this.filterByColumnArrowDropdown;
         await filterByColumnArrowDropdown.scrollIntoView();
-        await filterByColumnArrowDropdown.waitForClickable({ timeout: 10000 });
+        await filterByColumnArrowDropdown.waitForClickable({ timeout: 30000 });
         await filterByColumnArrowDropdown.click()
         const dropdownListElement = await this.browser.$(`//li[contains(text(), '${filterOption}')]`);
         await dropdownListElement.click();
@@ -209,6 +252,25 @@ class CommonPageElements {
         }
     }
 
+    async checkSnackbarMessage(expectedMessage: string, messageType: 'success' | 'error') {
+        const snackbarMessageElement = messageType === 'success'
+            ? this.snackbarSuccessMessage
+            : this.snackbarErrorMessage;
+
+        await browser.waitUntil(
+            async () => {
+                const actualMessage = await snackbarMessageElement.getText();
+                return actualMessage === expectedMessage;
+            },
+            {
+                timeout: 6000, // Adjust timeout as necessary
+                timeoutMsg: `Expected snackbar ${messageType} message to be "${expectedMessage}" but it was not found within the timeout period`
+            }
+        );
+
+        const finalMessage = await snackbarMessageElement.getText();
+        expect(finalMessage).toEqual(expectedMessage);
+    }
 
 }
 

@@ -20,7 +20,7 @@ Feature: E2E Case R1 - Quality Request
     And I click the submit button
     Then I check the snackbar message is "Successfully created quality stock request."
     And I select the first element of the table
-    Then I see the "License plate bin to bin" task was created in the row "1" in the license plate tasks table
+    Then I see the "License plate task" task was created in the row "1" in the license plate tasks table
     Then I see the task status is "Not Started" in the row "1" in the license plate tasks table
     Given I login in mobile fulfilld app
     When I enter the ingested LP in the search bar
@@ -35,5 +35,5 @@ Feature: E2E Case R1 - Quality Request
     And I enter "QA" as destination bin
     And I click search button
     When I refresh the current page
-    Then I see the "License plate bin to bin" task was created in the row "1" in the license plate tasks table
+    Then I see the "License plate task" task was created in the row "1" in the license plate tasks table
     Then I see the task status is "Complete" in the row "1" in the license plate tasks table
