@@ -154,9 +154,9 @@ Then(/^I verify that the previously saved bin info is displayed on the table as 
         if (isToday) {
             const currentDate = new Date();
             const formattedCurrentDate = currentDate.toLocaleDateString('en-US', {
-                month: isMacOS ? '2-digit' : 'long',
+                month: '2-digit',  // Always use 2-digit month
+                day: '2-digit',    // Always use 2-digit day
                 year: 'numeric',
-                day: isMacOS ? '2-digit' : 'numeric',
                 // hour: '2-digit',
                 // minute: '2-digit',
                 // hour12: false // 24-hour format
@@ -165,7 +165,7 @@ Then(/^I verify that the previously saved bin info is displayed on the table as 
             console.log('PICCORO', `${formattedCurrentDate} 00:00 CDT`);
             await binsPage.checkExpectedLabelCellIs(row, "lastCount", `${formattedCurrentDate} 00:00 CDT`); 
         } else {
-            await binsPage.checkExpectedLabelCellIs(row, "lastCount", `${lastCountDate} 00:00 CDT`);
+            await binsPage.checkExpectedLabelCellIs(row, "lastCount", `${lastCountDate} CDT`);
         }
     }
     if (hasOpenTasks !== undefined) {
@@ -216,17 +216,16 @@ Then(/^I verify that the previously saved bin info is displayed on the edit bin 
 
         if (field.key === 'lastCountDate') {
             const isToday = expectedValue.toLowerCase() === 'today';
-            const isMacOS = process.platform === 'darwin';
 
             if (isToday) {
                 const currentDate = new Date();
                 const formattedCurrentDate = currentDate.toLocaleDateString('en-US', {
-                    month: isMacOS ? '2-digit' : 'long',
+                    month: '2-digit',  // Always use 2-digit month
+                    day: '2-digit',    // Always use 2-digit day
                     year: 'numeric',
-                    day: isMacOS ? '2-digit' : 'numeric',
                 });
                 expectedValue = `${formattedCurrentDate} 00:00`; // Hardcoded time as per your requirement
-                console.log('PICCORO', expectedValue);
+                console.log('PICCORO2', expectedValue);
             }
         }
 
