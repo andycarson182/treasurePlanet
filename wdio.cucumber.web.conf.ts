@@ -289,7 +289,7 @@ export const config: Options.Testrunner = {
      * @param {number}             result.duration  duration of scenario in milliseconds
      * @param {object}             context          Cucumber World object
      */
-    afterStep: async function (step, scenario context) {
+    afterStep: async function (step, scenario ,context) {
         // if (!result.passed) {
         step
         scenario
