@@ -106,7 +106,7 @@ class DatePickerElement {
         await dateElement.click();
         console.log('Andres2')
         const isMacOS = process.platform === 'darwin';
-        // const isToday = dateValue.toLowerCase() === 'today';
+        const isToday = dateValue.toLowerCase() === 'today';
         let targetDate;
 
         if (isToday) {
