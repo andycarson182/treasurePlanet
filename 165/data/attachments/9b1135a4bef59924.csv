@@ -1,0 +1,2 @@
+row,binCode,status,removal,placement,areaCode,level,x,y,lastCountDate,hasOpenTasks,containsProducts,binSizeCode,weightCapacity,depth,width,height
+1,AUTOMATION BIN CODE UPDATED,Active,Available,Available,FG-1,2,2,2,today,No,No,PAL,5000 LB,7.999999999999998 FT,4.166666666666666 FT,3.999999999999999 FT
