@@ -1,2 +1,0 @@
-row,binCode,status,removal,placement,areaCode,level,x,y,lastCountDate,hasOpenTasks,containsProducts,binSizeCode,weightCapacity,depth,width,height
-1,AUTOMATION BIN CODE,Active,Available,Available,DIRECT-LOAD,1,1,1,10/10/2024,No,No,DOCK,999999999 LB,83333333.24999999 FT,83333333.24999999 FT,83333333.24999999 FT
