@@ -1,0 +1,5 @@
+"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
+"passed","Wed Oct 02 11:19:09 GMT 2024","Wed Oct 02 11:19:16 GMT 2024","7443","","Test the Bins section","","","","The user login into the Fulfilld Web App.",""
+"passed","Wed Oct 02 11:20:23 GMT 2024","Wed Oct 02 11:21:09 GMT 2024","46602","","Test the Bins section","","","","Verify that the user can edit a Bin and confirm the updated data in the Bins table.",""
+"passed","Wed Oct 02 11:19:52 GMT 2024","Wed Oct 02 11:20:23 GMT 2024","30817","","Test the Bins section","","","","Verify the persistence of data in the edit form after creation.",""
+"passed","Wed Oct 02 11:19:16 GMT 2024","Wed Oct 02 11:19:52 GMT 2024","35443","","Test the Bins section","","","","Verify that the user can create a new Bin with a complete form and validate the data persistence in the Bins table.",""
