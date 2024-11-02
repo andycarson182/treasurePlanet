@@ -1,0 +1,2 @@
+binSizeCode,binSizeLabel,weightCapacity,depth,width,height,binCode,areaCode,aisle,column,level,x,y,lastCountDate
+DOCK,DOCK_DOOR,999999999 LB,83333333.24999999 FT,83333333.24999999 FT,83333333.24999999 FT,AUTOMATION BIN CODE,DIRECT-LOAD: AREA-DIRECT-LOAD,1,1,1,1,1,today
